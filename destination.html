@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>All Tours - Viemma Tours</title>
+    
+    <!-- Elegant Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#1A3326', 
+                            light: '#FCFAF8', 
+                            accent: '#D4AF37',
+                        }
+                    },
+                    boxShadow: {
+                        'elegant': '0 10px 40px -10px rgba(0, 0, 0, 0.08)',
+                        'soft': '0 4px 20px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            color: #1A3326;
+            overflow-x: hidden;
+            background-color: #FCFAF8;
+        }
+        .century-gothic { font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif !important; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+        .nav-link { position: relative; cursor: pointer; transition: color 0.3s ease; }
+        .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 1px;
+            bottom: -4px; left: 50%; background-color: #D4AF37;
+            transition: all 0.4s ease; transform: translateX(-50%);
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        .modal-active { opacity: 1; visibility: visible; pointer-events: auto; transition: all 0.3s ease; }
+        .modal-inactive { opacity: 0; visibility: hidden; pointer-events: none; transition: all 0.3s ease; }
+
+        .reveal-on-scroll {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-on-scroll.active { opacity: 1; transform: translateY(0); }
+
+        .country-badge {
+            display: inline-block; padding: 5px 12px; border-radius: 2px; font-size: 9px;
+            font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em;
+            color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .text-shadow-strong { text-shadow: 0px 2px 4px rgba(0,0,0,0.8), 0px 4px 20px rgba(0,0,0,0.8); }
+
+        /* Embossed Styling for Partners */
+        .embossed-card {
+            background-color: #FCFAF8;
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15), -2px -2px 6px rgba(255, 255, 255, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .embossed-card:hover {
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1), inset -2px -2px 5px rgba(255, 255, 255, 1);
+        }
+        .embossed-card img {
+            filter: grayscale(100%) opacity(0.7);
+            mix-blend-mode: multiply;
+            transition: all 0.3s ease;
+        }
+        .embossed-card:hover img {
+            filter: grayscale(0%) opacity(1);
+        }
+
+        /* Footer Inverted Embossed */
+        .footer-embossed-img {
+            filter: grayscale(100%) invert(1) opacity(0.6); mix-blend-mode: screen; transition: all 0.3s ease;
+        }
+        .footer-embossed-img:hover { filter: grayscale(0%) invert(0) opacity(1); mix-blend-mode: normal; }
+        
+        /* Grid Scroll Helpers for Mobile */
+        @media (max-width: 767px) {
+            .mobile-2-col-scroll {
+                display: flex !important;
+                overflow-x: auto !important;
+                scroll-snap-type: x mandatory !important;
+                padding-bottom: 1rem !important;
+                gap: 0.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body class="relative bg-brand-light">
+
+    <!-- Top Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-500 bg-brand-dark/95 backdrop-blur-lg border-b border-brand-accent/20 py-3 md:py-2 lg:py-1 shadow-sm" id="main-navbar">
+        <div class="container mx-auto px-6 md:px-12 lg:px-16 2xl:px-24 flex justify-between items-center">
+            <a href="index.html" class="flex-shrink-0 z-50 transition-transform duration-300 hover:opacity-80 py-1 flex items-center">
+                <img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXc366uzOWFLPWyEuBIMhicbjT2GajlyGrsVyeSDE68ap9hBFEamMNA78eyvIPmA-MVNbGhtCBwzKlk29IttM_jygwrCJXjmUdZt6iijoXLFzRyBcrcb_C-oH3KxcsenhczLCRl7RfOtKSy_7o02kbNgJ29iMA?key=KPDE2Lo8HhnJ3v--HqdAAw" alt="Viemma Tours Logo" class="h-8 md:h-12 lg:h-14 w-auto object-contain filter brightness-0 invert">
+            </a>
+            <div class="hidden lg:flex items-center space-x-6 xl:space-x-8 text-[10px] xl:text-xs uppercase tracking-widest font-medium text-white">
+                <a href="index.html" class="hover:text-brand-accent nav-link">Home</a>
+                <div class="relative group">
+                    <button class="flex items-center space-x-1 hover:text-brand-accent nav-link pb-1 uppercase tracking-widest"><span>Destinations</span><i class="fas fa-chevron-down text-[10px] ml-1"></i></button>
+                    <div class="absolute top-full left-0 mt-4 w-56 bg-brand-dark shadow-2xl py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 border-t-2 border-brand-accent text-white">
+                        <a href="destination.html?id=south-africa" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">South Africa</a>
+                        <a href="destination.html?id=victoria-falls" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Victoria Falls</a>
+                        <a href="destination.html?id=botswana" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Botswana</a>
+                        <a href="destination.html?id=mauritius" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Mauritius</a>
+                        <a href="destination.html?id=reunion" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Reunion Islands</a>
+                        <a href="destination.html?id=maldives" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Maldives</a>
+                        <a href="destination.html?id=seychelles" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Seychelles</a>
+                        <a href="destination.html?id=zanzibar" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Zanzibar</a>
+                        <a href="destination.html?id=mozambique" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Mozambique</a>
+                        <a href="destination.html?id=madagascar" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Madagascar</a>
+                    </div>
+                </div>
+                <!-- Highlighted Active Page Link -->
+                <a href="tours.html" class="hover:text-brand-accent nav-link text-brand-accent">Tours</a>
+                <a href="corporate.html" class="hover:text-brand-accent nav-link">Business Tours</a>
+                <a href="about.html" class="hover:text-brand-accent nav-link">Our Story</a>
+                <a href="store.html" class="hover:text-brand-accent nav-link">Boutique</a>
+                <a onclick="openContactModal()" class="hover:text-brand-accent cursor-pointer nav-link">Contact</a>
+                <a onclick="openContactModal()" class="w-max bg-brand-accent text-brand-dark px-6 py-3 hover:bg-white transition-colors shadow-sm uppercase tracking-widest text-[9px] font-semibold cursor-pointer ml-2 rounded-sm">Enquire Now</a>
+            </div>
+            <div class="flex items-center gap-4 lg:hidden">
+                <a href="index.html" class="text-white font-medium text-[10px] md:text-xs uppercase tracking-widest hover:text-brand-accent transition-colors">Home</a>
+                <button class="text-2xl z-50 text-white hover:text-brand-accent" id="mobile-menu-btn-initial"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Floating Cart Button -->
+    <button onclick="toggleCart()" id="floating-cart-btn" class="fixed top-24 right-4 md:right-6 z-[60] bg-brand-accent text-white shadow-xl rounded-full w-14 h-14 flex items-center justify-center transition-all duration-300 hover:scale-105 hidden">
+        <i class="fas fa-shopping-cart text-xl"></i>
+        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+    </button>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="fixed inset-y-0 right-0 w-[70vw] sm:w-[50vw] bg-brand-dark/60 backdrop-blur-xl z-[70] transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center space-y-8 text-lg font-serif text-white shadow-2xl" id="mobile-menu-overlay">
+        <button id="close-mobile-menu" class="absolute top-8 right-8 text-3xl text-white hover:text-brand-accent transition-colors"><i class="fas fa-times"></i></button>
+        <a href="index.html" class="hover:text-brand-accent transition-colors font-light">Home</a>
+        <a href="tours.html" class="hover:text-brand-accent transition-colors font-light text-brand-accent">Tours</a>
+        <a href="corporate.html" class="hover:text-brand-accent transition-colors font-light">Business Tours</a>
+        <a href="about.html" class="hover:text-brand-accent transition-colors font-light">Our Story</a>
+        <a href="store.html" class="hover:text-brand-accent transition-colors font-light">The Boutique</a>
+        <a onclick="openContactModal(); toggleMenu()" class="hover:text-brand-accent cursor-pointer transition-colors font-light">Contact</a>
+        <a onclick="openContactModal(); toggleMenu()" class="w-max bg-brand-accent text-brand-dark px-8 py-3 mt-4 uppercase tracking-widest text-xs font-semibold cursor-pointer rounded-sm hover:bg-white transition-colors">Enquire Now</a>
+    </div>
+
+    <!-- MAIN CONTENT: ALL TOURS -->
+    <main class="relative z-20 bg-brand-light min-h-screen pt-24 md:pt-32 pb-20 md:pb-24">
+        <div class="container mx-auto px-4 md:px-12 lg:px-16 2xl:px-24 3xl:max-w-[1600px]">
+            <a href="index.html" class="w-max ml-2 md:ml-0 mb-10 flex items-center text-brand-dark hover:text-brand-accent font-medium text-[10px] md:text-xs uppercase tracking-widest transition-colors"><i class="fas fa-long-arrow-alt-left mr-3"></i> Return to Home</a>
+            
+            <div class="mb-12 md:mb-16 text-center reveal-on-scroll">
+                <span class="text-brand-accent text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-semibold mb-3 md:mb-4 block">Explore The World</span>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-light mb-4 md:mb-6 text-brand-dark font-serif italic">Tour Collections</h1>
+                <p class="text-stone-500 text-xs md:text-sm font-light max-w-2xl mx-auto tracking-wide px-4">Browse our comprehensive portfolio of breathtaking luxury tours across Southern Africa and the Indian Ocean.</p>
+            </div>
+            
+            <!-- Tours Grouped by Country Injected Here via JavaScript -->
+            <div id="tours-grouped-container" class="w-full">
+                <!-- Data will populate here -->
+            </div>
+
+            <!-- The Viemma Standard -->
+            <div class="bg-white shadow-soft p-6 md:p-16 rounded-sm border border-stone-100 mt-16 md:mt-24 reveal-on-scroll">
+                <div class="text-center mb-8 md:mb-12">
+                    <h3 class="text-2xl md:text-3xl font-light text-brand-dark font-serif italic">The Viemma Standard</h3>
+                </div>
+                <!-- Mosaic 2x2 on Mobile -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 text-center pb-2 md:pb-0">
+                    <div class="flex-shrink-0 flex flex-col items-center">
+                        <i class="fas fa-heart text-xl md:text-3xl text-brand-accent mb-3 md:mb-6"></i>
+                        <h4 class="font-serif font-light text-sm md:text-lg mb-2 md:mb-3 text-brand-dark leading-tight">Passion</h4>
+                        <p class="text-[9px] md:text-xs font-light text-stone-500 leading-relaxed tracking-wide px-2 md:px-0">We love our continent and want to share its magic with you intimately.</p>
+                    </div>
+                    <div class="flex-shrink-0 flex flex-col items-center">
+                        <i class="fas fa-users text-xl md:text-3xl text-brand-accent mb-3 md:mb-6"></i>
+                        <h4 class="font-serif font-light text-sm md:text-lg mb-2 md:mb-3 text-brand-dark leading-tight">Expertise</h4>
+                        <p class="text-[9px] md:text-xs font-light text-stone-500 leading-relaxed tracking-wide px-2 md:px-0">Our guides are locals with deep, ancestral knowledge of the regions.</p>
+                    </div>
+                    <div class="flex-shrink-0 flex flex-col items-center">
+                        <i class="fas fa-gem text-xl md:text-3xl text-brand-accent mb-3 md:mb-6"></i>
+                        <h4 class="font-serif font-light text-sm md:text-lg mb-2 md:mb-3 text-brand-dark leading-tight">Luxury</h4>
+                        <p class="text-[9px] md:text-xs font-light text-stone-500 leading-relaxed tracking-wide px-2 md:px-0">Premium, hand-picked experiences designed for unparalleled comfort.</p>
+                    </div>
+                    <div class="flex-shrink-0 flex flex-col items-center">
+                        <i class="fas fa-leaf text-xl md:text-3xl text-brand-accent mb-3 md:mb-6"></i>
+                        <h4 class="font-serif font-light text-sm md:text-lg mb-2 md:mb-3 text-brand-dark leading-tight">Sustainability</h4>
+                        <p class="text-[9px] md:text-xs font-light text-stone-500 leading-relaxed tracking-wide px-2 md:px-0">We support eco-friendly and deeply community-based tourism.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="global-partners-container"></div>
+    </main>
+
+    <!-- Global Partners Template -->
+    <template id="partners-template">
+        <section class="py-12 md:py-16 reveal-on-scroll border-t border-stone-200 bg-brand-light">
+            <div class="container mx-auto px-6 md:px-12 lg:px-16 2xl:max-w-[1600px] text-center">
+                <h5 class="text-[9px] font-medium uppercase tracking-[0.2em] text-brand-accent mb-8 md:mb-10">In Partnership With</h5>
+                <div class="flex flex-wrap justify-center items-center gap-6 md:gap-12 lg:gap-16">
+                    <div class="embossed-card h-12 md:h-16"><img src="https://viemmatourscapetown.co.za/wp-content/uploads/2022/07/red-bus-logo-150x150.jpg" loading="lazy" alt="City Sightseeing" class="h-full w-auto"></div>
+                    <div class="embossed-card h-12 md:h-16"><img src="https://viemmatourscapetown.co.za/wp-content/uploads/2022/07/HOTEL-SKY-150x150.jpg" loading="lazy" alt="Hotel Sky" class="h-full w-auto"></div>
+                    <div class="embossed-card h-12 md:h-16"><img src="https://viemmatourscapetown.co.za/wp-content/uploads/2022/07/Cape-Town-city-pass-150x150.jpg" loading="lazy" alt="Cape Town City Pass" class="h-full w-auto"></div>
+                    <div class="embossed-card h-12 md:h-16"><img src="https://viemmatourscapetown.co.za/wp-content/uploads/2022/06/Responsible-Tourism-Logo-CMYK_H-150x150.png" loading="lazy" alt="Responsible Tourism" class="h-full w-auto"></div>
+                    <div class="embossed-card h-12 md:h-16"><img src="https://viemmatourscapetown.co.za/wp-content/uploads/2022/06/Gold-restaurant-Copy-150x150.jpg" loading="lazy" alt="Gold Restaurant" class="h-full w-auto"></div>
+                    <div class="embossed-card h-12 md:h-16"><img src="https://viemmatourscapetown.co.za/wp-content/uploads/2022/06/Cape-Town-tourism-150x150.jpg" loading="lazy" alt="Cape Town Tourism" class="h-full w-auto"></div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- Global Footer -->
+    <footer class="relative pt-20 md:pt-24 pb-10 md:pb-12 overflow-hidden border-t border-white/20 bg-brand-dark z-20">
+        <img src="https://images.pexels.com/photos/6363665/pexels-photo-6363665.jpeg" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-10 blur-sm z-0">
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/95 to-brand-dark/90 z-10"></div>
+        
+        <div class="container mx-auto px-6 md:px-12 lg:px-16 2xl:max-w-[1600px] relative z-20">
+            <div class="flex flex-col lg:flex-row justify-between items-start mb-12 md:mb-16 gap-10 md:gap-16">
+                <div class="w-full lg:w-1/3">
+                    <img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXc366uzOWFLPWyEuBIMhicbjT2GajlyGrsVyeSDE68ap9hBFEamMNA78eyvIPmA-MVNbGhtCBwzKlk29IttM_jygwrCJXjmUdZt6iijoXLFzRyBcrcb_C-oH3KxcsenhczLCRl7RfOtKSy_7o02kbNgJ29iMA?key=KPDE2Lo8HhnJ3v--HqdAAw" loading="lazy" class="h-16 md:h-20 lg:h-24 w-auto mb-6 md:mb-8 filter brightness-0 invert drop-shadow-md object-contain">
+                    <p class="text-white/80 text-[10px] md:text-xs mb-6 md:mb-8 font-light leading-relaxed tracking-wide">Experience the unparalleled majesty of the African continent and the Indian Ocean. From sun-drenched savannas and rich historic landmarks, to vibrant cultures and pristine island escapes, let our experts guide your unforgettable journey through the true heart of Africa.</p>
+                </div>
+                <div class="w-full sm:w-1/2 lg:w-1/3 text-[10px] md:text-xs tracking-wide">
+                    <h5 class="text-white font-serif font-light italic text-xl md:text-2xl mb-6 md:mb-8 border-b border-white/20 pb-3 md:pb-4 inline-block">Contact Us</h5>
+                    <ul class="space-y-4 md:space-y-5 text-white/80 font-light">
+                        <li class="flex items-start"><i class="fas fa-map-marker-alt mt-1 mr-3 md:mr-4 text-brand-accent"></i><span>Cape Town, South Africa</span></li>
+                        <li class="flex items-center"><i class="fas fa-phone mt-0.5 mr-3 md:mr-4 text-brand-accent"></i><span>Local: (+27) 021 0137143</span></li>
+                        <li class="flex items-center"><i class="fas fa-mobile-alt mt-0.5 mr-3 md:mr-4 text-brand-accent"></i><span>Mobile: +27681712985</span></li>
+                        <li class="flex items-center"><i class="fas fa-envelope mt-0.5 mr-3 md:mr-4 text-brand-accent"></i><a href="mailto:info@viemmatours.africa" class="hover:text-brand-accent transition-colors">info@viemmatours.africa</a></li>
+                    </ul>
+                </div>
+                <div class="w-full sm:w-1/2 lg:w-1/3 text-[10px] md:text-xs tracking-wide">
+                     <h5 class="text-white font-serif font-light italic text-xl md:text-2xl mb-6 md:mb-8 border-b border-white/20 pb-3 md:pb-4 inline-block">Quick Links</h5>
+                     <div class="grid grid-cols-2 gap-y-3 md:gap-y-4 gap-x-2 text-white/80 font-light">
+                        <a href="destination.html?id=south-africa" class="hover:text-brand-accent transition-colors w-max"><i class="fas fa-angle-right mr-1.5 md:mr-2 text-[8px] md:text-[10px] text-brand-accent"></i> South Africa</a>
+                        <a href="destination.html?id=botswana" class="hover:text-brand-accent transition-colors w-max"><i class="fas fa-angle-right mr-1.5 md:mr-2 text-[8px] md:text-[10px] text-brand-accent"></i> Botswana</a>
+                        <a href="tours.html" class="hover:text-brand-accent transition-colors w-max"><i class="fas fa-angle-right mr-1.5 md:mr-2 text-[8px] md:text-[10px] text-brand-accent"></i> All Tours</a>
+                        <a href="corporate.html" class="hover:text-brand-accent transition-colors w-max"><i class="fas fa-angle-right mr-1.5 md:mr-2 text-[8px] md:text-[10px] text-brand-accent"></i> Corporate</a>
+                     </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom Section -->
+            <div class="border-t border-white/10 pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-start md:items-center text-[8px] md:text-[10px] text-white/60 uppercase tracking-widest font-medium gap-6 md:gap-0">
+                <div class="flex flex-col gap-4 md:w-1/3">
+                    <div class="text-center md:text-left">&copy; 2024 Viemma Tours. All rights reserved.</div>
+                </div>
+                <div class="flex flex-col gap-5 md:w-2/3 md:items-end w-full">
+                    <div class="flex flex-wrap gap-4 items-center justify-center md:justify-end w-full">
+                        <span class="text-white/40 text-[8px] tracking-widest mr-2">Associations:</span>
+                        <img src="https://viemmatourscapetown.co.za/wp-content/uploads/2020/03/SATSA-LOGO-1-150x150.jpg" loading="lazy" alt="SATSA" class="h-6 footer-embossed-img">
+                        <img src="https://viemmatourscapetown.co.za/wp-content/uploads/2020/03/SATIB_Logo_white-300x93.png" loading="lazy" alt="SATIB" class="h-5 filter opacity-60 hover:opacity-100 transition-opacity">
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    <!-- Shopping Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl z-[110] transform translate-x-full transition-transform duration-500 flex flex-col">
+        <div class="p-6 border-b border-stone-200 flex justify-between items-center bg-brand-light">
+            <h3 class="font-serif text-2xl italic font-light text-brand-dark">Your Cart</h3>
+            <button onclick="toggleCart()" class="text-stone-400 hover:text-brand-dark transition-colors"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+            <p class="text-stone-400 text-xs font-light italic text-center py-10">Your cart is empty.</p>
+        </div>
+        <div class="p-6 border-t border-stone-200 bg-stone-50">
+            <button onclick="checkoutWhatsApp()" class="w-full bg-[#25D366] text-white py-4 rounded-sm font-medium uppercase tracking-widest text-xs flex items-center justify-center hover:bg-[#20bd5a] transition-colors shadow-sm">
+                <i class="fab fa-whatsapp mr-3 text-lg"></i> Order via WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="fixed inset-0 z-[100] modal-inactive flex items-center justify-center bg-black/80 backdrop-blur-md p-4" onclick="closeBookingModal()">
+        <div class="bg-brand-light w-full max-w-2xl rounded-sm shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]" onclick="event.stopPropagation()">
+            <div class="relative h-48 md:h-64 bg-stone-200 shrink-0">
+                <img id="modal-img" src="" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 to-transparent"></div>
+                <button id="close-modal" class="absolute top-4 right-4 bg-white/10 border border-white/20 backdrop-blur rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center hover:bg-white hover:text-brand-dark text-white transition-all duration-300 z-10" onclick="closeBookingModal()"><i class="fas fa-times text-xs md:text-sm"></i></button>
+                <div class="absolute bottom-4 md:bottom-6 left-6 md:left-8">
+                    <span id="modal-badge" class="country-badge mb-2 md:mb-3 shadow-md">Country</span>
+                    <h3 id="modal-title" class="text-2xl md:text-3xl font-serif font-light text-white italic mb-1 md:mb-2 leading-tight pr-4 text-shadow-strong">Tour Title</h3>
+                    <div id="modal-rating" class="flex gap-1 drop-shadow-md"></div>
+                </div>
+            </div>
+            <div class="p-6 md:p-10 overflow-y-auto">
+                <div id="modal-desc" class="century-gothic text-stone-600 leading-relaxed mb-1 text-xs md:text-sm font-medium tracking-wide">Description goes here.</div>
+                
+                <div class="border-t border-stone-200 pt-6 md:pt-8 mt-6">
+                    <h4 class="font-light mb-4 md:mb-6 font-serif text-base md:text-lg text-brand-dark italic">Ready to embark?</h4>
+                    <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
+                        <a href="https://calendar.google.com/calendar/u/0/r/appointment" target="_blank" class="w-max flex items-center justify-center border border-blue-500 text-blue-600 font-medium py-2.5 md:py-3 px-4 rounded-sm hover:bg-blue-500 hover:text-white transition-colors text-[9px] md:text-[10px] uppercase tracking-widest"><i class="far fa-calendar-alt mr-2 md:mr-3 text-sm"></i> Book via Calendar</a>
+                        <a href="https://wa.me/27681712985" target="_blank" class="w-max flex items-center justify-center border border-[#25D366] text-[#25D366] font-medium py-2.5 md:py-3 px-4 rounded-sm hover:bg-[#25D366] hover:text-white transition-colors text-[9px] md:text-[10px] uppercase tracking-widest"><i class="fab fa-whatsapp mr-2 md:mr-3 text-base"></i> Enquire via WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="fixed inset-0 z-[100] modal-inactive flex items-center justify-center bg-black/80 backdrop-blur-md p-4" onclick="closeContactModal()">
+        <div class="bg-brand-light w-full max-w-md rounded-sm shadow-2xl relative p-8 md:p-10 border border-stone-200" onclick="event.stopPropagation()">
+            <button onclick="closeContactModal()" class="absolute top-4 right-4 md:top-6 md:right-6 text-stone-400 hover:text-brand-dark w-8 h-8 flex items-center justify-center rounded-full hover:bg-stone-100 transition-colors"><i class="fas fa-times text-sm"></i></button>
+            <h3 class="text-2xl md:text-3xl font-serif font-light mb-8 md:mb-10 text-center text-brand-dark italic">Connect With Us</h3>
+            <div class="space-y-3 md:space-y-4">
+                <a href="tel:+270210137143" class="flex items-center p-3 md:p-4 bg-white rounded-sm shadow-sm hover:shadow-lg transition-all duration-300 border border-stone-100 group">
+                    <div class="w-10 h-10 border border-brand-accent/40 text-brand-accent rounded-full flex items-center justify-center mr-4 md:mr-5 group-hover:bg-brand-accent group-hover:text-white transition-colors flex-shrink-0"><i class="fas fa-phone-alt text-xs"></i></div>
+                    <div><div class="font-medium text-brand-dark text-[10px] md:text-xs uppercase tracking-widest mb-1">Call Local</div><div class="text-[10px] md:text-xs text-stone-500 font-light">(+27) 021 0137143</div></div>
+                </a>
+                <a href="tel:+27681712985" class="flex items-center p-3 md:p-4 bg-white rounded-sm shadow-sm hover:shadow-lg transition-all duration-300 border border-stone-100 group">
+                    <div class="w-10 h-10 border border-brand-accent/40 text-brand-accent rounded-full flex items-center justify-center mr-4 md:mr-5 group-hover:bg-brand-accent group-hover:text-white transition-colors flex-shrink-0"><i class="fas fa-mobile-alt text-xs"></i></div>
+                    <div><div class="font-medium text-brand-dark text-[10px] md:text-xs uppercase tracking-widest mb-1">Call Mobile</div><div class="text-[10px] md:text-xs text-stone-500 font-light">+27 68 171 2985</div></div>
+                </a>
+                <a href="https://wa.me/27681712985" target="_blank" class="flex items-center p-3 md:p-4 bg-white rounded-sm shadow-sm hover:shadow-lg transition-all duration-300 border border-stone-100 group">
+                    <div class="w-10 h-10 border border-[#25D366]/50 text-[#25D366] rounded-full flex items-center justify-center mr-4 md:mr-5 group-hover:bg-[#25D366] group-hover:text-white transition-colors flex-shrink-0"><i class="fab fa-whatsapp text-lg"></i></div>
+                    <div><div class="font-medium text-brand-dark text-[10px] md:text-xs uppercase tracking-widest mb-1">WhatsApp</div><div class="text-[10px] md:text-xs text-stone-500 font-light">Chat with us directly</div></div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Layer -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- CART SYSTEM (Using LocalStorage) ---
+            function getCart() { return JSON.parse(localStorage.getItem('viemma_cart')) || {}; }
+            function saveCart(cartData) { localStorage.setItem('viemma_cart', JSON.stringify(cartData)); }
+
+            window.toggleCart = () => { document.getElementById('cart-sidebar').classList.toggle('translate-x-full'); };
+
+            window.checkoutWhatsApp = () => {
+                let cart = getCart();
+                if(Object.keys(cart).length === 0) return alert('Your cart is empty.');
+                let text = "Hello Viemma Tours, I would like to order the following items from the boutique:%0A%0A";
+                Object.keys(cart).forEach(title => {
+                    text += "- " + cart[title].qty + "x " + title + "%0A";
+                });
+                window.open('https://wa.me/27681712985?text=' + text, '_blank');
+            };
+
+            const updateCartUI = () => {
+                const container = document.getElementById('cart-items-container');
+                const countBadge = document.getElementById('cart-count');
+                const floatBtn = document.getElementById('floating-cart-btn');
+                
+                let cart = getCart();
+                let totalItems = 0;
+                Object.keys(cart).forEach(title => { totalItems += cart[title].qty; });
+
+                if (countBadge) countBadge.textContent = totalItems;
+                if (floatBtn) {
+                    if(totalItems > 0) floatBtn.classList.remove('hidden');
+                    else floatBtn.classList.add('hidden');
+                }
+            };
+            
+            updateCartUI(); // Init cart UI on page load
+
+            // --- Scroll Arrows Init ---
+            window.initScrollArrows = () => {
+                document.querySelectorAll('.scroll-wrapper').forEach(wrapper => {
+                    if (wrapper.dataset.arrowsInit === 'true') return; 
+                    const container = wrapper.querySelector('.scroll-content');
+                    if(!container) return;
+                    wrapper.dataset.arrowsInit = 'true';
+                });
+            };
+
+            // --- Navbar & Mobile Menu UI ---
+            const mainNavbar = document.getElementById('main-navbar');
+            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+            const mobileMenuBtnInitial = document.getElementById('mobile-menu-btn-initial');
+            const closeMobileMenu = document.getElementById('close-mobile-menu');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) { 
+                    mainNavbar.classList.add('py-2', 'md:py-1', 'shadow-md'); 
+                    mainNavbar.classList.remove('py-3', 'md:py-2', 'lg:py-1');
+                } else { 
+                    mainNavbar.classList.remove('py-2', 'md:py-1', 'shadow-md'); 
+                    mainNavbar.classList.add('py-3', 'md:py-2', 'lg:py-1');
+                }
+            });
+
+            window.toggleMenu = () => { mobileMenuOverlay.classList.toggle('translate-x-full'); };
+            if(mobileMenuBtnInitial) mobileMenuBtnInitial.addEventListener('click', toggleMenu);
+            if(closeMobileMenu) closeMobileMenu.addEventListener('click', toggleMenu);
+
+            // --- Modals Logic ---
+            const bookingModal = document.getElementById('booking-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDesc = document.getElementById('modal-desc');
+            const modalImg = document.getElementById('modal-img');
+            const modalBadge = document.getElementById('modal-badge');
+            const modalRating = document.getElementById('modal-rating');
+
+            window.closeBookingModal = () => { 
+                bookingModal.classList.remove('modal-active'); 
+                bookingModal.classList.add('modal-inactive'); 
+            };
+
+            window.openModal = (title, desc, img, country, colorClass, rating) => { 
+                modalTitle.textContent = title; 
+                
+                modalDesc.innerHTML = desc + `
+                    <div class="mt-4 md:mt-6 border-t border-stone-100 pt-4 md:pt-6">
+                        <h5 class="font-serif font-light text-brand-dark mb-3 text-sm md:text-base">Booking Information & Inclusions:</h5>
+                        <ul class="list-disc pl-5 space-y-1.5 md:space-y-2 text-stone-500 font-light text-[10px] md:text-xs tracking-wide">
+                            <li>Luxury hand-picked accommodations</li>
+                            <li>Expert local guides and tracking</li>
+                            <li>Seamless premium transfers</li>
+                            <li>24/7 dedicated concierge support</li>
+                        </ul>
+                    </div>
+                `;
+                
+                modalImg.src = img; 
+                modalImg.onerror = function() {
+                   this.onerror = null; 
+                   this.src = 'https://images.pexels.com/photos/14802795/pexels-photo-14802795.jpeg';
+                };
+                
+                modalBadge.textContent = country || 'Tour';
+                modalBadge.className = "country-badge shadow-md " + (colorClass || 'bg-stone-500');
+                
+                const starsHtml = Array.from({length: rating || 5}).map(() => '<i class="fas fa-star text-brand-accent text-[10px] md:text-xs drop-shadow-sm"></i>').join('');
+                modalRating.innerHTML = starsHtml;
+
+                bookingModal.classList.remove('modal-inactive'); 
+                bookingModal.classList.add('modal-active'); 
+            }
+
+            const contactModal = document.getElementById('contact-modal');
+            window.openContactModal = () => { contactModal.classList.remove('modal-inactive'); contactModal.classList.add('modal-active'); }
+            window.closeContactModal = () => { contactModal.classList.remove('modal-active'); contactModal.classList.add('modal-inactive'); }
+
+            // --- Scroll Reveal Init ---
+            const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } });
+            }, observerOptions);
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+            // --- Inject Partners Template ---
+            const pContainer = document.getElementById('global-partners-container');
+            const tpl = document.getElementById('partners-template');
+            if (pContainer && tpl) {
+                pContainer.appendChild(tpl.content.cloneNode(true));
+            }
+
+            // --- TOURS LOGIC AND RENDERING ---
+            const countryColors = {
+                'South Africa': 'bg-[#4A7c82]', 
+                'Zimbabwe': 'bg-[#7D4E57]',     
+                'Botswana': 'bg-[#D97D54]',     
+                'Maldives': 'bg-[#C68E17]',     
+                'Madagascar': 'bg-[#556B2F]',   
+                'Seychelles': 'bg-[#8B4513]',   
+                'Mauritius': 'bg-[#8f6a48]',    
+                'Reunion': 'bg-[#B03A2E]',      
+                'Zanzibar': 'bg-[#2874A6]',     
+                'Mozambique': 'bg-[#1E8449]'    
+            };
+
+            const buildPackages = (list, country, destId, defaultImgUrl) => {
+                return list.map(item => {
+                    const name = typeof item === 'string' ? item : item.name;
+                    const imgUrl = typeof item === 'string' ? defaultImgUrl : item.img;
+                    const rating = name.toLowerCase().includes('3-star') ? 3 : (name.toLowerCase().includes('4-star') ? 4 : 5);
+                    return { 
+                        title: name, 
+                        desc: `Experience unparalleled luxury and breathtaking coastal views at this exquisite ${rating}-star destination.`, 
+                        img: imgUrl, 
+                        country: country, 
+                        duration: "7 Days", 
+                        destId: destId, 
+                        rating: rating 
+                    };
+                });
+            };
+
+            // Tour Data Arrays
+            const mauritiusResortsData = [
+                {name: "Veranda Tamarin Hotel and Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcW2Oohh2CmTdPxt2djquF36KwrmfW_llhTcNZquCocrQ9ojIzeHnoG09AxRWXYZS-BbC5SrRjssfscOYicM3xRGX1uo8XbGaGKS3-gWxxj_Q61zp84wKkPq6Lqockm2qD_dTAQvQ?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Veranda Palmar Beach", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXe4qFnLCUbvc5fuBvu0hfC6r6Zt0Al_CYLFGxmUHzevXdXb8tEya93yVMJEiCDs8O9R3TibCfbk-ZA_ERm-3B9NBhQcnX_NZpyCNxUwjdgmtyHFoRohvZe9pLy07u5kBWAfrK50?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Riu Turquoise Mauritius", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdNJPaNF4kCI9FfhcEWSYPjmfqsbDcr4KYKVa5Li-ipqDCTBvIPrX5UZgR3FeMIsQYeJCA7wEWCqD6eWzG4aLg1q9s8doprjozvvmOE5d_vxxxKqQYnG4MBmLMREPjeQ5DETy_efQ?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Preskil Island Resort", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXd0JorbFj2Mb7SSgzVVStFyX_o8DGFz_98empUJexgVlAzSKEpN54BpRpTJp6jpUApgeoq1wq7qgu3i9vsXRSYZOfgafrv8_nFt30K7wl3oBgBb-W-uVB7Vl1ci3thr178HTXxYUg?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "La Pirogue Mauritius", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXf5vLG4a72MyLR08NZzlMaMJyqZDQx-hJkBuf9PP2pB_Ecwjr_3uX8TOVUZbX1UN_A4H6TmLPP0jJ62W4RdcT9sBc3zppj61WQPP3mOZs7vshIKmRu25N8VuS-uKy16es3kLpQA?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Veranda Grand Baie Hotel and Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXd70Z6PpFBACZH2yJv1O3z9tZTYiVBDUbnawFXpEerH0Z3HpVBrMwjraHyVwVmfM93eZp8urUdFWDhx3MgFdmqxGVXZcD6saXCoDaUmJS0KNBIhRuLQAibMQB7NU6CWqSb4WupCiw?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Veranda Paul et Virginie Hotel & Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcuplfYLT54s2mGTz_6bdJGaLuKK8PMdJccHAmXO-WcVjALYAOjofFMDxUgyCpZYwvVSO3GNojmRmMJ4mHc6U1_M_uEgwH1bjDB6FiXs5UcytM3rQka1qeRKCXL0JTQ4ZC6R9BU-A?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Radisson Blu Azuri Resort and Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdAMWd2nKaNYF3XrxpvAHYmohIkNEeQFQL7qG7KgI70UeQcdSFmpuFhRbND8JKaEwVcR2RXbkrI9R7yC1ld-ON_9aeVmGefgBiSe4bI3lp0UEX67jk4BiNCaNbqnNWzaSRl1EwbRw?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Pearle Beach Resort and Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcpP2NVHoNs7yY7jyLn_GPqoY57irNQUDPRVxyNozJ4Sv9P-IQ_796a9Qbo_axabkNyycBKOckjKDouJN2zY21_3S7ouvN8myN7g4eOuqW6Q1O2awSR39F1uoNIjNe4yHGLQ4vyWQ?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Crystals Beach Resort Belle Mare", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfii9ZUjV6F9vMGoQgYwkbeiP05SjONuEheEWeGQXFTRIkuvURrJSygHLIlehzYzp914LEL4hawR_C9KXbWeJR6yAmsd1sp6ikiZvTZfNPHLBeRKSjdrVRnrJRLdynZPK6_NsFXtA?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Solana Beach Mauritius", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcSVu44SR-9lDp-GD0ap1PY5fWSxh_kf5fnfUc9O8kj74d7gvjXytzo8CEc4sJEv6Fl4-HDm7bgYDipUNAyU6dmHskkwmjHTwUxi6sbnFHc7iZyUY4f2jJLchBeIbSw0-vWUocPpw?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Radisson Blu Poste Lafayette", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfWXMgQDTOtJMeYrNxScTubN5zVG4mwsdu-xaXTc3CKAbOSPjLo-P_DUY68r1b_9Ca0bkHHfhzmplMqjatn6efHwnxQwoIEFKfu04ThiOf45joFjo8_dxKzEe8zmQhXfFmV6ihEXQ?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Ambre Mauritius", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfGc6lQq4S_Ix_GIbhoqZuC-2HmuP8Bhziju20CR68PD80DxlyMVaglyFSiyRh6Br8Ja_R4JbtCdCzm8h466_buwKdZWOm1y9vhRDwOdUN5gP7y2sPeaqKNzHp_ZeTRsHXZUzTq2Q?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Veranda Pointe Aux Biches", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdS3a8S8-nvApvyH467PGsZFZ63qL9nVU-kCDBSy1Bvv9TtbAW_VXAMjB3J6qT4GdC9BuhWcXYkh0JmWPpGg7R6k-ZAwoKtEuaproFch87DP359kCkCkzuhYLJjAs4UuEcxluEulg?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Maritim Resort & Spa – Mauritius", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcI3ZZ2o_TdJI4Y69VON7TpMhks6lhUHcisB_hQ9xuDnG6bWFj1liFbQ6zt83ARvsCw19W8CJyW6uUgeUnKP259f32ccTTuOkCtFumuAk-CHEYapggFvAHWPbnTdnchbpZZMobvzA?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Riu Palace Mauritius", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXeBrQ4cTR-JMuJ53dDLfJfkbyl5v3Rd2C4NblIblRTwYtgUgtjyoSk8z0R5NtY5rLndZBVUiBHM0GqVnz4rxt6b4I84pS8WLQBNwb_c-amMR5qlYD8YHSADHOkkkgm9znPZ0QG8?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Hilton Mauritius Resort & Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXf3tlEAMmbFaYC2AqvPzUousA8eGc2zB7SGqzaGUFolEFO5d2EpmKRJNGnNA3FNtviRZMNaJ1mECu18mtnSqHCV_6nh-ibwDtva1SBILLjoB5uYDT-IwveyN9vZjTpHxBUxuW8h?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Shangri-La Le Touessrok Mauritius", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdfC-SZnqKrXm-3gl5DdediMKmOePDvjbav-ZojWkynudXPLpJLJVNcJbYPb6CALH2lLqz89AiJFwoaZ2Sz7jkbj71ua7-9S6nGs10A7U5RZqjGTrL8QZCuqz9EYhcgXb8EzHO2sg?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Long Beach Mauritius", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXeTEhAtjLg1DehRjA6yUp4ZEGjGJKPq7ZzJaxmeZx8BAHpUhdiCnRbXq5BYm3zd2Een6vSqPwDVGDWPFtqButjhxNXdAAW0nsCnwzzXm6uqwmvDfS5diVafeyNixdVLEehZ7wlm?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Intercontinental Mauritius Resort Balaclava Fort", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXeH2V8CBs4_C7Y-u6tCAz3Ycm3_JZ_BBOydq8JcoNc4kyWeUrunl_rG99vHadfJxuSjayOO9G6hwez1AE9Xzy-1OJFdZtXSuWCtir45E1MJFGeVN7QJiSb8Bc8jm1IkaHTr6Dp3?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "One & Only Le Saint Geran Mauritius", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcwBhyI7rCQBHzw0Aesq-HQYrjyZOu539gmIAnDD4u2Mg9Xd1fA5DnLDA3gqNRTQrJzBiLpYiBe-gIbfzEwInzGbTIalLOBVARGyYrnB9m6mxTUt7mpEN-ZVswuacvVZ6a--vNf?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Sugar Beach Mauritius", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfZCupGIhfaNykT8h8shnLbYw9ULDlGqPO1xSEb7LlOiLQ00bWEsK9jJEoi1ClpuylElpAEJWoe3uRZUDLUpOBGVyeU6LWWukx6JVg47SJAsRifz1GXqWsrwJi9NyAnpDb5bTUtaQ?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "The Bay Club at Anahita", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXf7UqkSbiyW6UFXAbz0NyvZglP4zuLwglYQFijAjooRGBE2TiPEHb9yKn11xYzkLXxEXU1P3aUD6Ev4BHywpf8Z7SamgHxCp38FqZbUqAec7GYENfuxvHtdrq6R15wErnJ2wP3HNA?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Four Seasons Resort Mauritius at Anahita", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcuYyx7KEU7qF09CY_5VtWheOunqj5b5L_qzpsazk2HzTK-pseSjzi3tYM6nnavtZtSF6n7ErFVlcOHTgNDGL81jdGXM3XHQ7Ntl3iQ_s4bsOV0YQtXGkTFCNdLZEVtPYGHBygW?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Heritage Le Telfair Golf & Wellness Resort", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdRKgd632yvxzfw1_Wh8CbpM-JVHdEeSiLfW3s4ff1_oAhts8m1CHVocCvBo-qrabFilU6xZW1oFkJ5QDU7V546Pw3-jv_7gEUybT6ID9Qg74gxmNApDv9NrcoNT7EptR7YZujNSA?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "LUX* Grand Baie Resort & Residences", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdh21b_SJckRHcPa3gAdrvPp4ThkQUojPcANYGqQMvoBpjRTox_GDTpGB8l142TpP3LC4do0qkAdl2XCMSCM2j-4CIuQVJASCJ0hcggGB48j6JR3wtY1k8u945_Myr2tzHUL8wPxg?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "Constance Belle Mare Plage", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfpsFRM_R3M2MhSqnJc_b28zYdgDi9zilvTJ18QIHAqOEu9FebKh3Q4sS_AsMqpDGagJyf4d3XMm_APC65wxLOPsbRssD8vW9QWiZ3okSGrvzWul-0WpRFzGQdb-pD6ZLk1NNg8dw?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "JW Marriott Mauritius Resort", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXccyhbrZOBGuT2n6mt55sXCuAN_DEFJKugBuR8vYI6ntYO6npgw4o3QIjz64WHSvmttuXvaucRI4yxYJX0G1yx0gC4fa4gtNJG6duOXvVmkCAR1iW_r6Uv2wQ9VsvaunycOpQx-Qw?key=dnLDELZEuuL9-DEOEYjapg"},
+                {name: "The Residence Mauritius", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcHo8MS6PAraBiiVh4BDiL7gvBict-sKSV3vtQ5a75SQT-m_yi9Qe1yyBVAIk4xIkEj0m5YO-sakA-u6QsmKyW_ZeTHd91g-WZCZ1QMvxHJytftZLQ-JpCvCFtsBIva3GOFeRNRKg?key=dnLDELZEuuL9-DEOEYjapg"}
+            ];
+
+            const seychellesResortsData = [
+                {name: "Kempinski Seychelles Resort", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXd4xaH98fElxkXCruN9AEAYWs8vxuhvjhz6Ow-rLQFeCQe6VILTz-KbxTpflNVUu8TpiSgWt5Tt5IwjDlmXJd6qCRIpDd4__GAFcDybxzXzbgt8eOM9PPf96wW2xgdcIGstq_NmUVRIvy6ZWZ1g3sb7vJ6juA?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Coral Strand Smart Choice Hotel", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXc3sfmGTGWE8O3QXVKmg8o_tt76McT07dVyRtv3sDgeiUMdMxMV_H9oDOT8U_PwZdY7o7u7svZiqBMZwe1JhoJIAv0FSgqvIPDcG-lL0YIWHxDf703DR25tSXA6i3doahz9MDWpfo3E0OxnlcUkzeas5cyF7Q?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Carana Beach Hotel", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXchSFfhK4EqJpB2Dkra8L8aS00f39q2dMuCT-1FJ1mh1MJiyEzBrSsGXxUSat-ua52fyxkUUigWJAyTuonAiCzGUOCvsP6jBhZnUPjBSILjQ0YN3zmFQTlFjK8wo2WM1w0qwrVPh3LwXNXIeqv8D9zJ2NQh9g?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Berjaya Beau Vallon Bay Resort & Casino", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcw78_iMDtwn0eGJZI6IS3ICFniuFhz2nNYhh2_SWJSUzuNXly7-pD0dARlMQeAwrk6-0xhW8UZXSBWr4gssHu1tCxcuyRP6HN27PS1mDslx9lrjcp7zk7p5rBjZt6KN2rdnqJ89ekT3_R42n2_3uUWGhuTWuY?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Paradise Sun Hotel", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcWnEYb-djLXKXFMGm7HAFboAhUBxCeKSYEp7cthf5ETvoc1jD3wLFqZf3sAFyKfh8hQs7oUDfFSVI587fzz7sQSJWAwXxLtYxNFXcmfxvOeMnli-xOL_K2byx1_RjDtSTsCaeJ7R5TQP3sjlQNi1IaeZDO1YQ?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Niva Labriz Resort", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfNZ8nREoxprFo0dh_F3_Buah34mI_adJzQ7CdCikn_83iP0Gsd8WlHrhVzXQiDg9-pSR8QSLizAvky8wR4TON1__19kxZWdGJ1RdDYTvwHagQ092LLNt0AtL5Ww8bnT9cB_tKfABFTjmdpB8KMnrBvu-xsFfg?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Savoy Seychelles Resort & Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXckkGPF7NPFQYN92sCpnjvYBSWfs0C6sKvA231yGzAaWEF1Bcp8OXf7WTmpk41pcyFkdQffW_INH9Z6g84qvDCK7X6iNeIhF4BHoNu7nBx8wP2tgCXMZtqk0FS1IH_a8q7Q3-Xr_e0kNdGk8sXoIoVSMqpu7NE?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Le Domaine de L’Orangeraie", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdS_b6TapGaCjd_uDb4sTfEhLzFR5oAptcYzyBVYqYbPf-lUWTC7SElF1FI9VpB5g0Q04DYEwi7v_4EsWweXS-O3rsAofAbXe04qMrGwp2zC6S8b78TFglx6mlNOpMhKbDFgIaKNPvWnnTPxrpyPdq-pGXfek4?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Canopy by Hilton Seychelles", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXewP_SPTp7vEJHMOYHIiPaz4M7W-VPbCu5F4rwP1MK2jxvGGNV1XsikBOFSv2NSXjgexoceA7giTe3zvvso7wRtgOduZgTSpnF6DH-GQrUwgKwbsKJ-30l4NlClgfV_fK3h3_8bW_DiL5wEgftdekgHnemx5Sc?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Story Seychelles", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcMDGp-4XwIKy8TC-ifmj3Y9_RIR-BTLIVR5cxGwYoHT4bYq3dxz2LeTlUJF_W7J6uDoQk-eqjDShWTS1Pg-xxY9Xu6LtHijkpp4eSDzBMprSewvxFIjv0sDeScROVd4CDnYf0CADmiUNUMlQKVaGtUnDBd2w?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Le Duc de Praslin Hotel and Villa – Seychelles", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcdct87rvtsnzJkRQbd-zvfp3a_5hcQwGJZ5ELGz07w89Jm7S-7Z9OwbSnqSkK780O0qVR2NtrDB1GPnMMUd2nuBq1i5Rap8z0XUDFCdaH4wJwOfmGfd3DrYCcAdOAOorIbjZgEKbu4-IUPWej4LIcesPqbqKM?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Constance Lemuria Resort Seychelles", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcjNf70I41hwoh0rAnBEJG5BKKGlorhuwj0smPZDmiK_x-l_BugNRHc_DbTdVUTBRnB11U3icdp_8dY4ftupsCGssU2lPdTXNazDIrXoZ65Jbyz3V8oumKJsfttlHg9DZzT7E8M2K_Jnqj8V39Tk-bGn99KkgM?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Constance Ephelia Resort Seychelles", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXeDHq87HQVUDaruTdPLLtd2bwd_B1XeHwdavmJyNTbMxmnjhLQ-4Ai1NzKxsrtwBI1m5DzQkXWVL7UzeXX5pDtYnov4Koyf8tDnjThueEd0RdNGJghtODiBNhwaI9mvOOmaiT8PbgMVQhAe-DXfTfO841SQxKo?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Raffles Seychelles", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXf7Gsn7FisuZ46VDyOWVTBJq3mgo-G-Ot9OXeIdOjS-ilY192cIT13hex4NNyGFBzjrsKR7rIZqN2zfE4NAxCvjEqUq0FhzfooOFsbf7MCvWj74ssKjkqVl_ZS9iWBmSknzI-eaWBGGqfhVFvKGM0ZJ31NT1FU?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Six Senses Zil Pasyon", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdpDjDqa51D4vXRFzzBStNXjqys_rYLLbgc0rw7bEWBXdvKDqZ6PgMZc-DxWK3s2_FDbQ5VmmLnWkxqzY40SGzBLIjNuYL2SdQD5njO32ww32ew-NwP4zNwhu_EnWqw-VLej9cgORtfR03FIJuTPIZHjoOl6cI?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Four Seasons Resort Seychelles", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXeQe2TiixiBZYO6lHufYyJncB87HUgDB2u7j3az0bfZSusz3t70w-UdQNE3Gj8mgEZzi57nyFjZpY-P-gZ8p8H-EoH4gQSOmFC7nj37sOp_4yQVOeJ7Jq9sVSUcJhRIIrrMcDOsRhnKFJs1qM1XZeEkqsQAsg?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Anantara Maia Seychelles Villas", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXeQ_skkILaT3x3usuRBMbWwOMAewPMVHtkeQ1Q2v5eUoMpdGi7rkWcdsNRR-ElW3huJhYKwZiaHsRWMBzgG33oJ6cEFGboyN-8foWGiqDkG81X7IQpj6JCRCujNWnajrB91rmnbrE9vKsjlFPz5qg4saLM-RTs?key=rXEmYkBYBFDf7qUdpvXYAw"},
+                {name: "Hilton Seychelles Northolme Resort", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfAEIY5bIfHXmpAKzE82w-IezQ79Leut3s6Gzs0JhQ37tE0KnMdXSftikm4m906bmTUMTpk85eKTr2TEvzb2NOoiRZTpplw5ttUmH1eOTqZbOQqW3EVf-E34WF4l-pchQ_g3GSoHjYzGzx39UMjHSk4X3vH_0o?key=rXEmYkBYBFDf7qUdpvXYAw"}
+            ];
+            
+            const zanzibarResortsData = [
+                {name: "Aldiana Club Zanzibar Kwanza", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdoqm_HzJtL1pJLX3X4937J9t2Ns8hjdNuzOdS_5UZyu4fgAdsH3GJ5ihv5yJFJYtLkEr2G-qBMmP6fkibfopie8-GiDfcJfg6chhANiqaSIdT5BLtpcNMZetn7oVetK9ZeeviSxbS9yB7-_6v3aXoqzuGV5Q?key=6kAtpWuOkRMcYwiQ32FevA"},
+                {name: "Riu Palace Swahili Zanzibar", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcR0Xu43y4nQ79fsuk_wmWtFqRF5ngn9Ec4S8BURzVgNOLLYgnzriMCI6YEV0AMdkXwqaBaQiRAp5XAndx_Ek2tsoQYl1NdbGd52uAJ1oKdMjxjRLYIdG-HeURHpaPpTipvIqYqVdcWnduSRsS5brSngbh8Q5A?key=6kAtpWuOkRMcYwiQ32FevA"},
+                {name: "The Mora Zanzibar", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXepD9FGeMxSweJ-dCZefw34hbNjssEI6nzQ6VzPk2XCCwf-QEGEZZXZHpsytTxcwWdKUIJuqIbgMWLR5GMT9cn3b6Z3elhKejqhwovtQeRJ_m3c6yr3EioZks_D_TZRNM8vOOJLqScVss25xGM48yn2XlYsdH0?key=6kAtpWuOkRMcYwiQ32FevA"},
+                {name: "Toa Hotel & Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcl-mrRNkpDsuZ1tqbGGyPM78oU6vB_PG_T7Y-xgc39s8yGTnyNng9lmr8dN6k0_1eb9R0gxQ2bOtAJgCOJMGqy-mPTL6HvXccpjrJJB6KSgW3VZ3vwNxUXMT2pAxMzCSw2KDXFf0oVeT20kgnQ6s4GciOvGfM?key=6kAtpWuOkRMcYwiQ32FevA"},
+                {name: "The Residence Zanzibar", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXclPfM2o013M9oQGhWUomxy7K7Th-cMcCWl1YUqQaaD02JYLRhD9W2eigT_MHvl1PpXxAfaXuwdOPXCEyu0T6O69b6buPDtsPqTWAvlUXQw6i2raS6r35xO8J9QC_9g5PrQZsOrTclRduxSEXPhtPYhqrDikWI?key=6kAtpWuOkRMcYwiQ32FevA"},
+                {name: "Hotel Riu Palace Zanzibar", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXePZz6NrF4K1cyNsxeqXYg7rz5DxclXv7mCm5JVsYTWWFwrt-3kqIz6wJpU10rbZjklA1JuKJ5Ym9C1aUtmzsZ8QY1MdpGsDXgqc4ISlYSv2BUsJoqx1AEahNshNLvvT2MPOZDjqgMu8oxL8xBfnmq4sufBiVk?key=6kAtpWuOkRMcYwiQ32FevA"},
+                {name: "Melia Zanzibar", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdRvA38B0aP0T5KLiakSxT7-OcdjbFW-nMf8y_kNfDWxN-9QiU_gj40neZjf_XYfy_y-dTJO73I8jjlt5AcGsgO18WgneQIZPvOsc9x4Y5I6D1D-n_-HJc12e4S9mn1RRWMzC79Fw4rGN1pwTq1Uoe1bB6gvuA?key=6kAtpWuOkRMcYwiQ32FevA"},
+                {name: "Riu Jambo Zanzibar", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXeJ5ZOQBuYcvmMOIUbbpJaJ_Z_DkWRiwtYcWv57e7jtWZoyZ91e8PjtodOoZXKvNH7tQAOd1PYPNwj8WOMKV9AqTrWVDhGnAZFFqbVz6_cFpcG2UVq9bazbzjBaKAHmzGpsmqEabYLaA_MacETN86rOoOShJlI?key=6kAtpWuOkRMcYwiQ32FevA"},
+                {name: "Ocean Paradise Resort & Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcA2tC_-B7ry3qsr8KMSGMe3nT7FjBpor7Q6pHn8ODl8UbvBGHAtp3CXKm71P1gaOGdXyjRpGrVae82zk15dVNmil3DqU1gI8A3uBdltoIBdli2rIw_BIyhANr8TXHungvA407Xnnqg2DjvxLGHeVpzjCsAsgQ?key=6kAtpWuOkRMcYwiQ32FevA"},
+                {name: "Neptune Pwani Beach Resort & Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdWHdkV76CQDbLq8dh4uFj9EB-AHkprfMhekBfevd2JOEXf84cWIbVBry0uidL6Ph7YusSUWrW8mGoyzfxobKbOJLn892BInoq5s_1pVY7cgGWknvi3gHNysxt_b_bguJ6raFmL7CZKOgMXOsjY2lcWRNVmCAQ?key=6kAtpWuOkRMcYwiQ32FevA"},
+                {name: "My Blue Hotel Zanzibar", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXci3scXG8WpI7ls3Rflh5-_rVPT1KDXOn_ALX_9PU-bvimF-CIMAX0c2SFkxnEWxIrOnk6asGWVrX2FBsg3wNQ4GDDNpvTdptEgpok_NqZWDcdwiIHhASllnVofv-D4MEX6YDa9Zk-AR0rC3k21C2ySWSIRAU8?key=6kAtpWuOkRMcYwiQ32FevA"},
+                {name: "Zuri Zanzibar", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfFguO6qEaJKYE7IBCbOXcpGMOBMnr5Bd48FPVif6uZccx68iIrggQ9dxo3185iWtW4renBEdBK5VAo3kby1ALCBbDUthINBzzQQ7YCfMDV5idYOgDv-KEGWYpFIhT-BXs1OHQqtgPVLz9UEsHsK67kVLGyGxY?key=6kAtpWuOkRMcYwiQ32FevA"},
+                {name: "Sea Cliff Resort & Spa Zanzibar", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXccpmKV8ROwKz5X2nRm94NV4-bbV-tZutAQK-fQNcyqiqT6NmphiYbXj8fUkBLYSOD11NF_6CDkASv4FmnrK2_dhJb6FbBNPxWV7aaDLWhD94uQUCj03z8oBDO_E6gm9VBdBjVjmtgPxg8JsyjdiwlORY3v1TI?key=6kAtpWuOkRMcYwiQ32FevA"},
+                {name: "Karafuu Beach Resort", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXeftCIQW6ozRIZDpPklxyXxbhe03uhse91e5sEX7hXkGS-xA938N_dE_nsUv62JwlKuE8zXDbcE3u8v-DLlA-4RYjw_kUrVm0GZ5lRjqiEpV06kCOJAiZXtaRTWM67E4RFVRH8yoXhudNKKHSHemNXdzrRwgQ?key=6kAtpWuOkRMcYwiQ32FevA"},
+                {name: "Gold Zanzibar Beach House & Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXepwF91y7yWHCrBmPT1TKc8nq5G9Asr-9ukCdxr6NFHL_pdGoMy784gTL4SYXO_cHdRPwPdR5A6RlTu06Zn71rMRYYpNXBOFk0LBd-8hjPnDoKYMir9AHcRtPAcTtnwxi3lkh2e2uVPrZzL4B5M6kRe6JgvZgw?key=6kAtpWuOkRMcYwiQ32FevA"},
+                {name: "Tulia Zanzibar Unique Beach Resort", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdW3DLVEHgQTPTlXld2Y-G-upnEgK3JoDjCBVIXUsB7qY2QMvuiG6TpK1lECPZZoJjSQvBcgb4IyijJ1nWZ4f3_z1_R6TDd5tO8LPeVY7_vGAokxdzZWcoze-g54xGKKSHSDQQzyXHMLPwAGQt_nDaEXtBD5GM?key=6kAtpWuOkRMcYwiQ32FevA"}
+            ];
+            
+            const reunionResortsData = [
+                {name: "Le Dina Morgabine Saint Gilles – Reunion", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdlxfoIBU1_3NMYKamkx5LLOMEzxk7dYFPf_kVKAg0hIr1v9J2nQwDPMYm59jaDcUYoUWK2RDGFKPoNViSCFL9exKg9f54butsbJC0L0P_pzglI9ZwZbVa-FAk8zxkvOd7GXLIb_I1AeW5fyu9jMh1R04Skbg?key=RIH37gHge56axv5zwYVJzQ"},
+                {name: "Le Saint Pierre", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXeS1bJa2sUpGEbrB-yPGBdw6QbO0ScapXmU19h79CX2wrHBhkwKHfJiZNopKLie7-iwMAT_uXyQLIuGZWsdHCPhuTSgieRhtEtWGEZFZLWczkyTUrw6uUqSmAFQjWGUCDnOXQJ5N6w32nFc8cLLPYN4C4yUnA?key=RIH37gHge56axv5zwYVJzQ"},
+                {name: "La Villa Delsile", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXeq2LxZMMwBKi8tOX726zId0DTvoBmxAGUZuZBDJ9ojB3Z_8MY1qDe6uwcKyCABaBFjVPGrFA3NE8nWomMl0ZQWi8phKF9FGVyQiaZWJJWvGCCGvPRE6WiP0sUmyuC9DkGYt9Rc3FGHm0ku51z_vVOgOGs-tNY?key=RIH37gHge56axv5zwYVJzQ"},
+                {name: "Le Saint Alexis Reunion", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcHSZkkrPGQLrHs5WkWzteW7MymodyXjZhX9ZQ4RODHuLVYFKxGNiQNFjS-Qg3ZkTOT5m025hWop8tiL7XFmKb657nX3LpH8pceYn6xCRvYe36clrSh9MUYQ9bmSql36CfA9gE_jHEi6B2sabYu-AVlXk1FyA?key=RIH37gHge56axv5zwYVJzQ"},
+                {name: "Le Ness by D-Ocean Reunion", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdJ-IUMd0qaPq-hqUKgQWdkmfWNGPjrJowp88fBANcFtoS0ByA6SnWVE3pBG7lfzxwdgqj7H8sXYHIQNO1Rscy2SsvdYFmLuZOttNNxWafN9T5jLDypH6liatm0Q-diHP-WiZWL7VO80f2NKGa8OwH_1dTOjeo?key=RIH37gHge56axv5zwYVJzQ"},
+                {name: "Le Blue Margouillat Reunion", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXe4q-FXTwvUPEJ2WqIe_Xhel38LDYNXKrN8bQ1fkIfR-XYrZCYVPoAdN-e6w7Pxv9M7IpoAhktYemikzrLzk3UTldZCHyq6F35dYvoAbaHDKyWkN58E_MWjbmKrkCItXSXRE6TghFarwNdJg4h9cFXT9se1m1k?key=RIH37gHge56axv5zwYVJzQ"},
+                {name: "Le Diana Dea Lodge – Reunion", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXd7qdyJ1-fD5681p1WTmX4Ta_8f6v_ofX7PPg9SiIleN2WcTGURhq-Z-NbX2L9at_DCdjqf15zc1riwxb6y3p0OFPmxbwL8wgCwi5Kaxc_mFaUNx-tTcrXT-7SLpF3TfmGxqGIPT036UgR8AlWGnDeMQs7PaC0?key=RIH37gHge56axv5zwYVJzQ"},
+                {name: "LUX* Saint Gilles Resort", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcduFUcuI1dIB7umTL0g6Bmj1766_8PVBzZizPH3II8rjFBF2nd623YTwp5Mekt_ytyheXdgkC76UBTEhLDX-baoi9ziUIoe5je5lYklIgwBcEvHLdbJUZwxq0VaCZDGgrMAqPq3IA3BDGCWiulrLGTEr3-OA?key=RIH37gHge56axv5zwYVJzQ"},
+                {name: "Palm Hotel & Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdmKjhYuESDA5P_uuJBQa-zyK2JEROWSKD1zAMD1zSs9Kgr_d8cPRnVC4_dzxZITilSgaTgM6onoB8NZiHsEfTQd8kyYalLDnFDDkkwwAiBTm-1sXBpaETtXkPp9hOynaZ_-RPNzKd71JnFFh5eXAryQ76xdW0?key=RIH37gHge56axv5zwYVJzQ"},
+                {name: "Iloha Seaview Hotel", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcrEeRXo37pixaIDxSyS4PMQtyV-GAS0hvxk5ER3F0sxBahr7hBKY487mFOH3gZD6G9oNeiPLk28o6qtvk6XSQgeBPiEBVSmMDWe2JWF9Yq65vx4snUhAhQ6Ysq83gcKeVH_DwJhBE1ixkHJx2Yj20uehgucg?key=RIH37gHge56axv5zwYVJzQ"},
+                {name: "Hotel Le Recif", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXettV4PuMqh-1GGMHXeRt7PGWKHeiBuGJchHmEUVloQN3MI3hRcBbhPHqy1RGgyjTj9QLcRJu_e5vIPWgnpd4DMhzFxhC6V_nP4KAYEG3X_9R5knzwF5JMwaFmGeXA7ZqjzK0oSxWuCgDQWih5CbBbCV7loysg?key=RIH37gHge56axv5zwYVJzQ"},
+                {name: "Boucan Canot", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXd2QfTAT3nRLwCWybURxfSReeRINEuY6wTIXHUEgmVptBlK3Zqz58bj_raNv3Ez_KkEGt9Trx-njbheSmRITZRrbUr-AlNQt63CMSb456kfF5TLupyPeLXuIQRz_J_NNSdOHnFRvHWkDo73ILY7SNmcLK19EJc?key=RIH37gHge56axv5zwYVJzQ"},
+                {name: "Akoya Hotel & Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdEbZrUw9s2Z2-8Fb4WV1ZqaiVF-aezGOcwb0_0gcFSpN56Tu_vhgfMc-OSQmoFfq5R78dyX8NYW6LxpWB0osUS03_0hWAIznpoT3enhDk1PCSsPCs5Qf5D0lMjB6RC1QeGXKK4gGyAhZpCmDzSFDOZvYUP5c0?key=RIH37gHge56axv5zwYVJzQ"}
+            ];
+
+            const maldivesResortsData = [
+                {name: "Komandoo Maldives Island Resort & Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfJiGxd0bsKDBoKyUHCsPPM5MqBi6vdJ54p-8RF_Fn8trnAjFcHoiqXH_zjZ9BIuA4MWVY3wP6uWXRwbiamVb2fM0yLkJh5_smR-BU8i0v5QcebWcYhdF5hA3W93pcSeJg5P3UR?key=EbxwEktmvzgK7QhF3tiu_Q"},
+                {name: "Veligandu Maldives Island Resort", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfujaFmYlRGgKxp9DreJZq4GsdOuEndETOR6-AWChkHVUxeiS6hoh-X1Iu4Wj-l1NieRDOHPq-DeQzKXIbw0WONvYtHI0e9PBVi5M-hSjGHAqUmJAlFLCNwBfdxcNLsuLUZU9TMHQ?key=EbxwEktmvzgK7QhF3tiu_Q"},
+                {name: "Nala Maldives by Jawakara", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdsFAce4tz1WFpUKNa7bBc4jiiu0uGCLLK4-y7RUWVWWs33X_eQbnt7Ldti25py8bSe3kUJwt3Ez9PMR4y430pQXK4tPh9JTApnlI8EoDDI8OLS6Yl8TneOzrXAhATaI4oQIyVf?key=EbxwEktmvzgK7QhF3tiu_Q"},
+                {name: "Vilamendhoo Maldives Island Resort & Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdX9MYYuMaHfb2afXs2PSmJ119QitIBzAO5q7zUZ--IkM6DI3xA535cx_NUbF6krnnvhw0lcSomSQ2CMNCTi1jhd628AvllUn08nQlXw5v9Ff5MWaRu__iT81jyRSIDPdZy3TVuJQ?key=EbxwEktmvzgK7QhF3tiu_Q"},
+                {name: "Kagi Resort & Spa – Maldives", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcwupiqkpRMOINos-JHKcsko9z2JxEi7vJLpSIr3jpo4E37xa11W7wRNzyVuYIBECf0jqJYeJiIh69CjH9Ol40awsiJdOEn8S43UVh3No0u70RSzOFQ1vARI2BrokEjph7QH36v7g?key=EbxwEktmvzgK7QhF3tiu_Q"},
+                {name: "Jawakara Island Maldives", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXeJlxxMyN5qY8vtxd3TpPISuWs4WOTbnlU5YzSr1Q3h_UwbRYYHPjijUqc1M-FwTcoK5CS8wMoLY5ttdzwVknFIUrGwV7Ow4jNUSSBKOz9e7qy7OndN93M1JuRTn8ld0to6OVinxQ?key=EbxwEktmvzgK7QhF3tiu_Q"},
+                {name: "Hurawalhi Maldives Island Resort", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfgI3LrITdp8nCpELmn9GZsgw_Y37pYWyRtfupTLsUGynKzjHKSZegcWMgYhw-K2M7f06x20bmTo8F_K1Yx81TjS5Nz-Ult-Ro7kUdn53--z0VGabUrP6QuiW-TlFM37SY3anbARA?key=EbxwEktmvzgK7QhF3tiu_Q"},
+                {name: "Meeru Maldives Island Resort & Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXc6s9U2OvarjRAs02T3FJxAvsGsrdOa9iPkJbVoV6NJwoQsVt7MSyE7BnFWM80qS9Vw4T41BcG9MHw_DImcIw98gSsag142ag04fl9FI50oXdH0i5V2Ygswpo4QHxXI1LxisBoH?key=EbxwEktmvzgK7QhF3tiu_Q"},
+                {name: "Sun Siyam Olhuveli Maldives", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfX2a8mbypVGFaFmeqykpTzq7Kcnjj4V_oZc7EtsoPjabR6Q6H1l8hBxffLd35qjnZAvfOe_JGn6kYSQqwjxMf3OODuN8A5rtIFhF6GZYpTCh6FUndyXpfTEUJiDdzUikvQvjC_4g?key=EbxwEktmvzgK7QhF3tiu_Q"},
+                {name: "Kuredu Island Resort & Spa Maldives", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdu_75GEwRpJTURbd3NsKZu6wPcNYDR5JX9qXLerFBgNjV8dVfo0nICyNw9R8fexw2yhVJuFdcjE0Z4gL83-LeEOx4bE6nIAWJt6c7RuIFX5GUf7pn2qnrXanlDyR8qILevGwSruQ?key=EbxwEktmvzgK7QhF3tiu_Q"},
+                {name: "Sun Siyam Iru Veli Maldives", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXeDAox4oEkZeJ7nb45D1ql0_mpI5HT5cq5GSLLYSa-sMAm6Pv68gG0bOBByCI9aLWVvJQNLzdZwyjx0jPD1E63ktVCIwi1W32yJDqV7Wrj345MAgLahUjMvo8DkpG-uLCogyV9T?key=EbxwEktmvzgK7QhF3tiu_Q"},
+                {name: "Sun Siyam World Maldives", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcnR98cfpKL2tmTM189EKjP6Pkokv07jsAhUCWscku9i5wMeOv9HrpL0JsAcbghBs8BOIgcGKBgkE2zq0xsYLIKhQpTbACcQJ81SLBcCwgFBtyqI-Z1cKRgz3cJQpOQjRRBnYJH?key=EbxwEktmvzgK7QhF3tiu_Q"},
+                {name: "Sun Siyam Vilu Reef Maldives", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXehETQeS4n2jy7mTe4YXx5a9ENSDGXfTlk1wy0uOamfJPA3dFuGEkygkYse0Q6H5GvR14MEk9jTG_iO36YfqCTj1_gTWLh0b1XMQT1AoVgHUbQ1A_fZ1PsYhAzGN2fZHQztNSosuA?key=EbxwEktmvzgK7QhF3tiu_Q"},
+                {name: "Sun Siyam Iru Fushi Maldives", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfe_EGKCpFdnN097cCTpg35t0oB8MTH_hwQUJnaYt2ELBirQC8z0FqdajVy6fpEtphSqvNP6S2qJ9I-1lEAWsZ-TqnMajqf66UMGXoDwKn9Q33bADlS1H76ASaRERfXjDtszjG5?key=EbxwEktmvzgK7QhF3tiu_Q"},
+                {name: "Adaaran Prestige Vadoo", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfaf7s7dxTUvdRvror-353Gf7fG-k-tBSCB1XerSQo7fsaeJsnl9ya9cion_tA0JMT_WJUJpo1CO_rdgseGxAJjOKD0q3pKWwR2Qw4ry95b222ptHt6s0jsHdNv6qAGkD4f-1bfYg?key=EbxwEktmvzgK7QhF3tiu_Q"},
+                {name: "Ozen Reserve Bolifushi", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXdIDsnGz_RwbNikWo_04lrTFrIQENPBk4sfMTmaNfcKtJwXLPpjkwGtIzEf52EAex5qzqqEE7ublzk004hLv4Z-PUmZnuou8Irx2mN6gvtBGaQl5B6EgNm3g6WlV6JxXkowa0ZgIA?key=EbxwEktmvzgK7QhF3tiu_Q"}
+            ];
+
+            const mozambiqueResortsData = [
+                {name: "Azura Marlin Mozambique", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXf_TVVv6wcfZaSXLdX8XXb0jaoRHeR0P6aStbiNkMbnihVys5nKpEhbdefphMIi4oo4xt0FCe9aVadf90jajyu4hSSS9skKgtMStoGSLyRTlqyPAWHnwFNAAl3F4rX3p4i4Bq5zNtuVmEQwNZC-xAb018ufJyY?key=WdxWCa_QhM0jS4V6GQa-dw"},
+                {name: "Machangulo Beach Lodge – Mozambique", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfTJsGL2JmxSt7mOWimgsOOAsyJ7HaDA3Z6S6Ldd8LWdw_n5UVyZK1Go5skLDwMM0v5GTk8Fl2IqFMcYuTjBOK0Dyv0Fc4DIMzK-Hx084eYJHmHjc3Law6RIvxEoJ_nOoel7yTE0YJqzHyid69ZYnz8TlkqRyM?key=WdxWCa_QhM0jS4V6GQa-dw"},
+                {name: "White Pearl Resorts – Mozambique", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXeibVOji9VhiDjW-bL3Hbgz5Bgab3fOBwhdDAODwDf8XTlaBTEfF9CEFTM-gjwb_oZxLBxEEWeTf5O-CWH_IOE7nvmBemnm9W1XhCdUjjD0ing0-E6ZXO6ppUdlh5o4tm2ULJZn-AFOK-7pS6gMYe3cRow_T4w?key=WdxWCa_QhM0jS4V6GQa-dw"},
+                {name: "Santorini Mozambique", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXevpBaGV-6D0VAdbe_NGVnVXpwFbkKXViNSfl3QtD7UePPGT5f-wLfaD81nFwh977HiF8jPoesw5FmUGXfALDWu0EoRNtv0uGgh_8tW9YqtZh_QoR08FsNuGsHnCTldz6ZPgHOtGclwrzH6w-MT-QwRDrV9E2E?key=WdxWCa_QhM0jS4V6GQa-dw"},
+                {name: "Bahia Mar Boutique Hotel Mozambique", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXeiOsoP6Kzlt9wvgN1H2zArtvYcwfvT4K4MRKcE9gj6Yb3Ip8IgCOkG5NgMRUQrylCyoWoO7GeSUkX9Y0m2eLr9XVEHweGrmKWuAvQcuLbfpV8Hl1Y2903eZ9SamtdlTxbGMRYHEBBFrqW7Yv_bm5sJ6-qaLyg?key=WdxWCa_QhM0jS4V6GQa-dw"},
+                {name: "Azura Benguerra Island Mozambique", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXcGxtghx2w5mLPhpPQ3Hi7vf4n4y0G0_GiaHhkChjlFjzZTpM4uOUt8hhE05Vakv8emMLcB31GiSMaTw3HY6hbNDcNTqg8Kff1d7nyGj9AaIoa-S_jVXaeqbbOHtq6rCxlGDz0OXAm8n-Aij5mb4FreJNsKIK0?key=WdxWCa_QhM0jS4V6GQa-dw"},
+                {name: "Anantara Bazaruto Island Resort", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfdYGZRzZp-Nu374uMmDJpcjZavyCrr8XmIcBlXq6JJKM5_YpwDDYnN1EAOCSk3P0BisVye8CHS2lbHdQDo6eGTGMjtxLx5bmWIvTNoAVVcIqZH4lDHniNd0RaiSX6xT2snpvsZ1-mpRO-LcUEIcYPSJHp4E1g?key=WdxWCa_QhM0jS4V6GQa-dw"}
+            ];
+
+            const madagascarResortsData = [
+                {name: "Royal Andilana Resort and Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfuQFyi8eHiYmkSN_-O7AX1b8iIi9xbgb1s2MJsIhaRy1xDJJJEWM9hUtG37xB6QFkMxRRP84p7MZZrf0udMtM3nF2yb01dIX_6vX3Gq_e3bwHEh632RIK3WGNXu8TvH-NHt0IA?key=dnLDELZEuuL9-DEOEYjapg"}, 
+                {name: "Constance Tsarabanjina", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfq9R64fjY9gauyX62Ry9Drw4r9EjfEkF8QINQiifdWsJF2zYk2HI2p7PsgWORHh54rJHJf1Pol6sBdmZaosrh_eXjvgMBfk-2ciREqcuPjsQebIzbhFX8XCRehAcWJNjkuY_K4Bg?key=dnLDELZEuuL9-DEOEYjapg"}
+            ];
+
+            let packages = [
+                { title: "Table Mountain Escapade", desc: "Ascend the iconic Table Mountain via guided hiking trails or cable car, culminating in panoramic vistas of the glittering city and vast ocean.", img: "https://images.pexels.com/photos/5800233/pexels-photo-5800233.jpeg", country: "South Africa", duration: "1 Day", destId: "south-africa", rating: 5 },
+                { title: "Cape Peninsula & Penguins", desc: "Experience the dramatic tip of Africa. Navigate the sweeping curves of Chapman's Peak to the historic Cape of Good Hope, meeting the endearing Boulders Beach penguins.", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXeIrmHQ5l8Jw7XPpivrAZrKQVw4QoY81J6T-WhuvCLWxeF42xfY4KXdhSmTwOsE79gInwmT1ucW0xvLfS4T_96pNnJzu1_BcSH2ldqbT9ajkDGczFE1C7brjosTd6bBqn5d9S-Jow?key=dnLDELZEuuL9-DEOEYjapg", country: "South Africa", duration: "1 Day", destId: "south-africa", rating: 5 },
+                { title: "Robben Island Heritage", desc: "A profoundly moving journey to the island where Nelson Mandela was imprisoned, guided by those who lived the history.", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXf00p1c4kw_QUfsm7_rQT--x2F358pQ9KbD9uBHTFkJSBtst-hx6YXGjXG7uOl2aitEBQu6cOIP8ruHx4LBcEeGFPmMxV2yNY6tBWoEarXsxzSh4GHUJjF8LycQ6YuDDGkl2Hd-hA?key=dnLDELZEuuL9-DEOEYjapg", country: "South Africa", duration: "Half Day", destId: "south-africa", rating: 4 },
+                { title: "Stellenbosch Cellar Experience", desc: "Sip world-class vintages while exploring the lush, manicured valleys and historic estates of the Cape Winelands.", img: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=800", country: "South Africa", duration: "1 Day", destId: "south-africa", rating: 5 },
+                { title: "Township Cultural Tour", desc: "Discover the heartbeat of Cape Town. Experience the vibrant culture, rich history, and profound resilience of local townships.", img: "https://images.unsplash.com/photo-1542640244-7e672d6cb466?q=80&w=800", country: "South Africa", duration: "Half Day", destId: "south-africa", rating: 5 },
+                { title: "Kruger Big Five Safari", desc: "The ultimate luxury safari. Traverse South Africa's premier wildlife reserve in open vehicles, encountering lions, leopards, and elephants.", img: "https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=800", country: "South Africa", duration: "4 Days", destId: "south-africa", rating: 5 },
+                { title: "Sabi Sands Private Reserve", desc: "Exclusive luxury lodges in a private concession famous for unparalleled leopard sightings and off-road tracking.", img: "https://www.sabi-sands.com/assets/img/singita-sabi-sands.jpg", country: "South Africa", duration: "3 Days", destId: "south-africa", rating: 5 },
+                { title: "Garden Route Coastal Drive", desc: "A scenic coastal journey exploring ancient forests, serene lagoons, and the charming elegance of George and Knysna.", img: "https://www.go2africa.com/wp-content/uploads/2018/11/Fancourt-Clubhouse-from-Montagu-Golf-Course.jpg", country: "South Africa", duration: "4 Days", destId: "south-africa", rating: 4 },
+                { title: "Johannesburg Urban Roots", desc: "Dive into the heartbeat of SA. Visit the vibrant streets of Soweto, the Apartheid Museum, and burgeoning cultural art hubs.", img: "https://www.jarattours.co.za/wp-content/uploads/elementor/thumbs/Jarat-Tours-0466-e1639736676617-pk77rm6blqkryzw6hlj75oxoqvc4zaqgfvjp01omfc.jpg", country: "South Africa", duration: "2 Days", destId: "south-africa", rating: 4 },
+
+                // Botswana 
+                { title: "Okavango Delta Luxury Camps", desc: "Experience unparalleled privacy and game viewing from exclusive tented camps nestled deep within the wetland wilderness.", img: "https://images.unsplash.com/photo-1474511320723-9a56873867b5?q=80&w=800", country: "Botswana", duration: "5 Days", destId: "botswana", rating: 5 },
+                
+                // Zimbabwe
+                { title: "Chobe Day Trip", desc: "Experience unparalleled wildlife viewing on a day trip to Chobe National Park.", img: "https://wildhorizons.co.za/wp-content/uploads/2024/05/Hero-Banner-1920-x-1080-px-33.jpg", country: "Zimbabwe", duration: "1 Day", destId: "victoria-falls", rating: 5 },
+                { title: "Helicopter Flights", desc: "Take to the skies for a breathtaking 'Flight of Angels' over the majestic Victoria Falls.", img: "https://wildhorizons.co.za/wp-content/uploads/2024/04/Hero-Banner-1920-x-1080-px-9-1.png", country: "Zimbabwe", duration: "Short Tour", destId: "victoria-falls", rating: 5 },
+                { title: "Zipline in Victoria Falls", desc: "Experience the ultimate adrenaline rush zipping across the spectacular Batoka Gorge.", img: "https://wildhorizons.co.za/wp-content/uploads/2024/04/Zipline-hero-banner-1-2048x1362.jpg", country: "Zimbabwe", duration: "Short Tour", destId: "victoria-falls", rating: 5 },
+                { title: "Zambezi Sundowner Cruise", desc: "Relax on a luxury cruise along the Zambezi River while enjoying a spectacular African sunset.", img: "https://wildhorizons.co.za/wp-content/uploads/2024/03/Hero-Banner-1920-x-1080-px-22.jpg", country: "Zimbabwe", duration: "Half Day", destId: "victoria-falls", rating: 5 },
+                { title: "Victoria Falls Day Trip", desc: "Explore the rainforest and viewpoints of the magnificent Victoria Falls on a comprehensive guided tour.", img: "https://wildhorizons.co.za/wp-content/uploads/2024/05/Hero-Banner-1920-x-1080-px-34.jpg", country: "Zimbabwe", duration: "1 Day", destId: "victoria-falls", rating: 5 }
+            ];
+
+            packages = packages.concat(buildPackages(mauritiusResortsData, "Mauritius", "mauritius", "https://images.pexels.com/photos/14802795/pexels-photo-14802795.jpeg?auto=compress&cs=tinysrgb&w=800"));
+            packages = packages.concat(buildPackages(seychellesResortsData, "Seychelles", "seychelles", "https://images.pexels.com/photos/6726419/pexels-photo-6726419.jpeg?auto=compress&cs=tinysrgb&w=800"));
+            packages = packages.concat(buildPackages(zanzibarResortsData, "Zanzibar", "zanzibar", "https://images.pexels.com/photos/7101641/pexels-photo-7101641.jpeg"));
+            packages = packages.concat(buildPackages(reunionResortsData, "Reunion", "reunion", "https://images.pexels.com/photos/50594/sea-bay-waterfront-beach-50594.jpeg"));
+            packages = packages.concat(buildPackages(maldivesResortsData, "Maldives", "maldives", "https://images.unsplash.com/photo-1540206351-d6465b3ac5c1?q=80&w=800"));
+            packages = packages.concat(buildPackages(mozambiqueResortsData, "Mozambique", "mozambique", "https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?q=80&w=800"));
+            packages = packages.concat(buildPackages(madagascarResortsData, "Madagascar", "madagascar", "https://images.pexels.com/photos/7506100/pexels-photo-7506100.jpeg?auto=compress&cs=tinysrgb&w=800"));
+
+            const buildCountryGroups = () => {
+                const container = document.getElementById('tours-grouped-container');
+                if(!container) return;
+                
+                // Keep the exact order of countries based on the user's snippet
+                const orderedCountries = ["South Africa", "Botswana", "Zimbabwe", "Mauritius", "Seychelles", "Zanzibar", "Reunion", "Maldives", "Mozambique", "Madagascar"];
+                
+                orderedCountries.forEach(country => {
+                    const pkgs = packages.filter(p => p.country === country);
+                    if(pkgs.length === 0) return;
+                    
+                    const section = document.createElement('div');
+                    section.className = 'mb-12';
+                    section.innerHTML = `
+                        <div class="flex items-center mb-6 px-4 md:px-0">
+                            <h3 class="text-2xl md:text-3xl font-serif italic text-brand-dark">${country}</h3>
+                            <div class="flex-1 h-px bg-stone-200 ml-4"></div>
+                        </div>
+                        <div class="relative w-full group scroll-wrapper">
+                            <div id="grid-${country.replace(/\s+/g, '-')}" class="scroll-content mobile-2-col-scroll md:grid md:grid-cols-4 gap-3 md:gap-6 pb-4 px-4 md:px-0 hide-scrollbar">
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(section);
+                    
+                    const grid = section.querySelector('.scroll-content');
+                    pkgs.forEach(pkg => {
+                        const colorClass = countryColors[pkg.country] || 'bg-stone-500';
+                        const starsHtml = Array.from({length: pkg.rating || 5}).map(() => '<i class="fas fa-star text-brand-accent text-[8px] md:text-[10px] drop-shadow-sm"></i>').join('');
+                        
+                        const card = document.createElement('div');
+                        card.className = "w-[45vw] sm:w-[40vw] md:w-[260px] md:flex-1 flex-shrink-0 snap-center bg-white/95 backdrop-blur-md rounded-sm shadow-soft hover:shadow-elegant transition-shadow duration-500 overflow-hidden flex flex-col h-full border border-stone-100 cursor-pointer";
+                        card.onclick = () => openModal(pkg.title, pkg.desc, pkg.img, pkg.country, colorClass, pkg.rating);
+                        
+                        card.innerHTML = `
+                            <div class="relative h-32 md:h-48 overflow-hidden bg-stone-100">
+                                <img src="${pkg.img}" loading="lazy" onerror="this.onerror=null; this.src='https://images.pexels.com/photos/14802795/pexels-photo-14802795.jpeg';" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80"></div>
+                                <div class="absolute top-2 right-2 bg-white/95 px-1.5 py-0.5 rounded-sm flex gap-0.5">${starsHtml}</div>
+                                <span class="absolute bottom-2 left-2 country-badge shadow-md ${colorClass}">${pkg.country}</span>
+                            </div>
+                            <div class="p-3 md:p-5 flex flex-col flex-1">
+                                <h3 class="text-xs md:text-base font-medium text-brand-dark mb-1 md:mb-2 font-serif italic leading-tight">${pkg.title}</h3>
+                                <p class="century-gothic text-stone-500 text-[8px] md:text-xs mb-3 leading-relaxed flex-1">${pkg.desc}</p>
+                            </div>`;
+                        grid.appendChild(card);
+                    });
+                });
+                
+                if (window.initScrollArrows) window.initScrollArrows();
+            };
+            
+            buildCountryGroups();
+
+        });
+    </script>
+</body>
+</html>
