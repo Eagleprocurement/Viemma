@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Madagascar Tours - Viemma Tours</title>
+    
+    <!-- Elegant Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#1A3326', 
+                            light: '#FCFAF8', 
+                            accent: '#D4AF37',
+                        }
+                    },
+                    boxShadow: {
+                        'elegant': '0 10px 40px -10px rgba(0, 0, 0, 0.08)',
+                        'soft': '0 4px 20px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            color: #1A3326;
+            overflow-x: hidden;
+            background-color: #FCFAF8;
+        }
+        .century-gothic { font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif !important; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+        .nav-link { position: relative; cursor: pointer; transition: color 0.3s ease; }
+        .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 1px;
+            bottom: -4px; left: 50%; background-color: #D4AF37;
+            transition: all 0.4s ease; transform: translateX(-50%);
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        .modal-active { opacity: 1; visibility: visible; pointer-events: auto; transition: all 0.3s ease; }
+        .modal-inactive { opacity: 0; visibility: hidden; pointer-events: none; transition: all 0.3s ease; }
+
+        .reveal-on-scroll {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-on-scroll.active { opacity: 1; transform: translateY(0); }
+
+        .country-badge {
+            display: inline-block; padding: 5px 12px; border-radius: 2px; font-size: 9px;
+            font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em;
+            color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .text-shadow-strong { text-shadow: 0px 2px 4px rgba(0,0,0,0.8), 0px 4px 20px rgba(0,0,0,0.8); }
+
+        /* Embossed Styling for Partners */
+        .embossed-card {
+            background-color: #FCFAF8;
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15), -2px -2px 6px rgba(255, 255, 255, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .embossed-card:hover {
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1), inset -2px -2px 5px rgba(255, 255, 255, 1);
+        }
+        .embossed-card img {
+            filter: grayscale(100%) opacity(0.7);
+            mix-blend-mode: multiply;
+            transition: all 0.3s ease;
+        }
+        .embossed-card:hover img {
+            filter: grayscale(0%) opacity(1);
+        }
+
+        /* Footer Inverted Embossed */
+        .footer-embossed-img {
+            filter: grayscale(100%) invert(1) opacity(0.6); mix-blend-mode: screen; transition: all 0.3s ease;
+        }
+        .footer-embossed-img:hover { filter: grayscale(0%) invert(0) opacity(1); mix-blend-mode: normal; }
+        
+        /* Grid Scroll Helpers for Mobile */
+        @media (max-width: 767px) {
+            .mobile-2-col-scroll {
+                display: flex !important;
+                overflow-x: auto !important;
+                scroll-snap-type: x mandatory !important;
+                padding-bottom: 1rem !important;
+                gap: 0.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body class="relative bg-brand-light">
+
+    <!-- Global Background Image -->
+    <div class="fixed inset-0 z-[-1] w-full h-full overflow-hidden">
+        <img src="https://images.pexels.com/photos/6363665/pexels-photo-6363665.jpeg" class="w-full h-full object-cover scale-105" alt="Global Green Theme Background">
+    </div>
+
+    <!-- Top Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-500 bg-brand-dark/95 backdrop-blur-lg border-b border-brand-accent/20 py-3 md:py-2 lg:py-1 shadow-sm" id="main-navbar">
+        <div class="container mx-auto px-6 md:px-12 lg:px-16 2xl:px-24 flex justify-between items-center">
+            <a href="index.html" class="flex-shrink-0 z-50 transition-transform duration-300 hover:opacity-80 py-1 flex items-center">
+                <img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXc366uzOWFLPWyEuBIMhicbjT2GajlyGrsVyeSDE68ap9hBFEamMNA78eyvIPmA-MVNbGhtCBwzKlk29IttM_jygwrCJXjmUdZt6iijoXLFzRyBcrcb_C-oH3KxcsenhczLCRl7RfOtKSy_7o02kbNgJ29iMA?key=KPDE2Lo8HhnJ3v--HqdAAw" alt="Viemma Tours Logo" class="h-8 md:h-12 lg:h-14 w-auto object-contain filter brightness-0 invert">
+            </a>
+            <div class="hidden lg:flex items-center space-x-6 xl:space-x-8 text-[10px] xl:text-xs uppercase tracking-widest font-medium text-white">
+                <a href="index.html" class="hover:text-brand-accent nav-link">Home</a>
+                <div class="relative group">
+                    <button class="flex items-center space-x-1 hover:text-brand-accent nav-link pb-1 uppercase tracking-widest text-brand-accent"><span>Destinations</span><i class="fas fa-chevron-down text-[10px] ml-1"></i></button>
+                    <div class="absolute top-full left-0 mt-4 w-56 bg-brand-dark shadow-2xl py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 border-t-2 border-brand-accent text-white">
+                        <a href="south-africa.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">South Africa</a>
+                        <a href="victoria-falls.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Victoria Falls</a>
+                        <a href="botswana.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Botswana</a>
+                        <a href="mauritius.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Mauritius</a>
+                        <a href="reunion.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Reunion Islands</a>
+                        <a href="maldives.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Maldives</a>
+                        <a href="seychelles.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Seychelles</a>
+                        <a href="zanzibar.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Zanzibar</a>
+                        <a href="mozambique.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Mozambique</a>
+                        <a href="madagascar.html" class="block px-6 py-2.5 hover:bg-white/10 text-brand-accent transition-colors">Madagascar</a>
+                    </div>
+                </div>
+                <a href="tours.html" class="hover:text-brand-accent nav-link">Tours</a>
+                <a href="corporate.html" class="hover:text-brand-accent nav-link">Business Tours</a>
+                <a href="about.html" class="hover:text-brand-accent nav-link">Our Story</a>
+                <a href="store.html" class="hover:text-brand-accent nav-link">Boutique</a>
+                <a href="contact.html" class="hover:text-brand-accent nav-link">Contact</a>
+                <a onclick="openContactModal()" class="w-max bg-brand-accent text-brand-dark px-6 py-3 hover:bg-white transition-colors shadow-sm uppercase tracking-widest text-[9px] font-semibold cursor-pointer ml-2 rounded-sm">Enquire Now</a>
+            </div>
+            <div class="flex items-center gap-4 lg:hidden">
+                <a href="index.html" class="text-white font-medium text-[10px] md:text-xs uppercase tracking-widest hover:text-brand-accent transition-colors">Home</a>
+                <button class="text-2xl z-50 text-white hover:text-brand-accent" id="mobile-menu-btn-initial"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Floating Cart Button -->
+    <button onclick="toggleCart()" id="floating-cart-btn" class="fixed top-24 right-4 md:right-6 z-[60] bg-brand-accent text-white shadow-xl rounded-full w-14 h-14 flex items-center justify-center transition-all duration-300 hover:scale-105 hidden">
+        <i class="fas fa-shopping-cart text-xl"></i>
+        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+    </button>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="fixed inset-y-0 right-0 w-[70vw] sm:w-[50vw] bg-brand-dark/60 backdrop-blur-xl z-[70] transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center space-y-8 text-lg font-serif text-white shadow-2xl" id="mobile-menu-overlay">
+        <button id="close-mobile-menu" class="absolute top-8 right-8 text-3xl text-white hover:text-brand-accent transition-colors"><i class="fas fa-times"></i></button>
+        <a href="index.html" class="hover:text-brand-accent transition-colors font-light">Home</a>
+        <a href="tours.html" class="hover:text-brand-accent transition-colors font-light text-brand-accent">Destinations</a>
+        <a href="corporate.html" class="hover:text-brand-accent transition-colors font-light">Business Tours</a>
+        <a href="about.html" class="hover:text-brand-accent transition-colors font-light">Our Story</a>
+        <a href="store.html" class="hover:text-brand-accent transition-colors font-light">The Boutique</a>
+        <a href="contact.html" class="hover:text-brand-accent transition-colors font-light">Contact</a>
+        <a onclick="openContactModal(); toggleMenu()" class="w-max bg-brand-accent text-brand-dark px-8 py-3 mt-4 uppercase tracking-widest text-xs font-semibold cursor-pointer rounded-sm hover:bg-white transition-colors">Enquire Now</a>
+    </div>
+
+    <!-- MAIN CONTENT: DESTINATION (MADAGASCAR) -->
+    <main class="relative z-20 bg-brand-light min-h-screen pt-24 md:pt-32 pb-20 md:pb-24">
+        <div class="container mx-auto px-4 md:px-12 lg:px-16 2xl:px-24 3xl:max-w-[1600px]">
+            <a href="tours.html" class="w-max ml-2 md:ml-0 mb-8 md:mb-10 flex items-center text-brand-dark hover:text-brand-accent font-medium text-[10px] md:text-xs uppercase tracking-widest transition-colors"><i class="fas fa-long-arrow-alt-left mr-3"></i> All Tours</a>
+            
+            <!-- Destination Hero -->
+            <div class="flex flex-col lg:flex-row gap-10 md:gap-16 mb-16 md:mb-20 items-center px-2 md:px-0">
+                <div class="lg:w-1/2 w-full relative reveal-on-scroll">
+                    <div class="hidden md:block absolute -inset-4 border border-brand-accent/20 rounded-sm z-0"></div>
+                    <img id="dest-hero-img" src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXfuQFyi8eHiYmkSN_-O7AX1b8iIi9xbgb1s2MJsIhaRy1xDJJJEWM9hUtG37xB6QFkMxRRP84p7MZZrf0udMtM3nF2yb01dIX_6vX3Gq_e3bwHEh632RIK3WGNXu8TvH-NHt0IA?key=dnLDELZEuuL9-DEOEYjapg" loading="lazy" class="relative z-10 w-full h-[350px] md:h-[500px] object-cover rounded-sm shadow-elegant bg-stone-200">
+                </div>
+                <div class="lg:w-1/2 flex flex-col justify-center text-center lg:text-left reveal-on-scroll">
+                    <span class="text-brand-accent text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-semibold mb-3 md:mb-4 block">Destination</span>
+                    <h1 id="dest-title" class="text-4xl md:text-5xl lg:text-6xl font-serif font-light mb-6 md:mb-8 text-brand-dark italic">Madagascar</h1>
+                    <p id="dest-desc" class="century-gothic text-stone-500 leading-relaxed mb-8 md:mb-10 text-xs md:text-sm font-light tracking-wide max-w-lg mx-auto lg:mx-0">
+                        A massive island nation off the southeast coast of Africa. A sanctuary for thousands of unique animal species found nowhere else on the planet.
+                    </p>
+                    <button onclick="openContactModal()" class="w-max mx-auto lg:mx-0 border border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white px-8 py-3.5 text-[10px] md:text-xs uppercase tracking-[0.15em] font-medium transition-all duration-400 rounded-sm">Plan Your Journey</button>
+                </div>
+            </div>
+            
+            <!-- Dynamic Regions Container -->
+            <div id="dest-regions-container" class="mb-16 md:mb-20 reveal-on-scroll">
+                <!-- Javascript will inject the Madagascar packages here -->
+            </div>
+
+            <!-- Dynamic FAQs Container -->
+            <div class="mt-16 md:mt-20 bg-white p-6 md:p-12 lg:p-16 rounded-sm shadow-soft border border-stone-100 mb-20 md:mb-24 mx-2 md:mx-0 reveal-on-scroll">
+                <div class="text-center mb-8 md:mb-12">
+                    <h3 class="text-2xl md:text-3xl font-light font-serif text-brand-dark italic">Frequently Asked Questions</h3>
+                </div>
+                <div class="space-y-3 md:space-y-4 max-w-4xl mx-auto">
+                    
+                    <div class="bg-white rounded-sm border border-stone-100 shadow-soft overflow-hidden">
+                        <button class="w-full px-6 md:px-8 py-5 text-left font-medium flex justify-between items-center focus:outline-none hover:bg-stone-50 transition-colors text-brand-dark text-xs md:text-sm tracking-wide" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('i').classList.toggle('rotate-180')">
+                            <span>Are guided tours required?</span>
+                            <i class="fas fa-chevron-down text-brand-accent transition-transform duration-300 text-xs"></i>
+                        </button>
+                        <div class="px-6 md:px-8 py-5 text-stone-600 hidden bg-white text-xs font-light leading-relaxed border-t border-stone-100 tracking-wide">
+                            Due to the wild infrastructure, traveling with our experienced local luxury guides is highly recommended to ensure comfort, safety, and exclusive access to the national parks.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+        <div id="global-partners-container"></div>
+    </main>
+
+    <!-- Global Partners Template -->
+    <template id="partners-template">
+        <section class="py-12 md:py-16 reveal-on-scroll border-t border-stone-200 bg-brand-light">
+            <div class="container mx-auto px-6 md:px-12 lg:px-16 2xl:max-w-[1600px] text-center">
+                <h5 class="text-[9px] font-medium uppercase tracking-[0.2em] text-brand-accent mb-8 md:mb-10">In Partnership With</h5>
+                <div class="flex flex-wrap justify-center items-center gap-6 md:gap-12 lg:gap-16">
+                    <div class="embossed-card h-12 md:h-16"><img src="https://viemmatourscapetown.co.za/wp-content/uploads/2022/07/red-bus-logo-150x150.jpg" loading="lazy" alt="City Sightseeing" class="h-full w-auto"></div>
+                    <div class="embossed-card h-12 md:h-16"><img src="https://viemmatourscapetown.co.za/wp-content/uploads/2022/07/HOTEL-SKY-150x150.jpg" loading="lazy" alt="Hotel Sky" class="h-full w-auto"></div>
+                    <div class="embossed-card h-12 md:h-16"><img src="https://viemmatourscapetown.co.za/wp-content/uploads/2022/07/Cape-Town-city-pass-150x150.jpg" loading="lazy" alt="Cape Town City Pass" class="h-full w-auto"></div>
+                    <div class="embossed-card h-12 md:h-16"><img src="https://viemmatourscapetown.co.za/wp-content/uploads/2022/06/Responsible-Tourism-Logo-CMYK_H-150x150.png" loading="lazy" alt="Responsible Tourism" class="h-full w-auto"></div>
+                    <div class="embossed-card h-12 md:h-16"><img src="https://viemmatourscapetown.co.za/wp-content/uploads/2022/06/Gold-restaurant-Copy-150x150.jpg" loading="lazy" alt="Gold Restaurant" class="h-full w-auto"></div>
+                    <div class="embossed-card h-12 md:h-16"><img src="https://viemmatourscapetown.co.za/wp-content/uploads/2022/06/Cape-Town-tourism-150x150.jpg" loading="lazy" alt="Cape Town Tourism" class="h-full w-auto"></div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- Global Footer -->
+    <footer class="relative pt-20 md:pt-24 pb-10 md:pb-12 overflow-hidden border-t border-white/20 bg-brand-dark z-20">
+        <img src="https://images.pexels.com/photos/6363665/pexels-photo-6363665.jpeg" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-10 blur-sm z-0">
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/95 to-brand-dark/90 z-10"></div>
+        
+        <div class="container mx-auto px-6 md:px-12 lg:px-16 2xl:max-w-[1600px] relative z-20">
+            <div class="flex flex-col lg:flex-row justify-between items-start mb-12 md:mb-16 gap-10 md:gap-16">
+                <div class="w-full lg:w-1/3">
+                    <img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXc366uzOWFLPWyEuBIMhicbjT2GajlyGrsVyeSDE68ap9hBFEamMNA78eyvIPmA-MVNbGhtCBwzKlk29IttM_jygwrCJXjmUdZt6iijoXLFzRyBcrcb_C-oH3KxcsenhczLCRl7RfOtKSy_7o02kbNgJ29iMA?key=KPDE2Lo8HhnJ3v--HqdAAw" loading="lazy" class="h-16 md:h-20 lg:h-24 w-auto mb-6 md:mb-8 filter brightness-0 invert drop-shadow-md object-contain">
+                    <p class="text-white/80 text-[10px] md:text-xs mb-6 md:mb-8 font-light leading-relaxed tracking-wide">Experience the unparalleled majesty of the African continent and the Indian Ocean. From sun-drenched savannas and rich historic landmarks, to vibrant cultures and pristine island escapes, let our experts guide your unforgettable journey through the true heart of Africa.</p>
+                </div>
+                <div class="w-full sm:w-1/2 lg:w-1/3 text-[10px] md:text-xs tracking-wide">
+                    <h5 class="text-white font-serif font-light italic text-xl md:text-2xl mb-6 md:mb-8 border-b border-white/20 pb-3 md:pb-4 inline-block">Contact Us</h5>
+                    <ul class="space-y-4 md:space-y-5 text-white/80 font-light">
+                        <li class="flex items-start"><i class="fas fa-map-marker-alt mt-1 mr-3 md:mr-4 text-brand-accent"></i><span>Cape Town, South Africa</span></li>
+                        <li class="flex items-center"><i class="fas fa-phone mt-0.5 mr-3 md:mr-4 text-brand-accent"></i><span>Local: (+27) 021 0137143</span></li>
+                        <li class="flex items-center"><i class="fas fa-mobile-alt mt-0.5 mr-3 md:mr-4 text-brand-accent"></i><span>Mobile: +27681712985</span></li>
+                        <li class="flex items-center"><i class="fas fa-envelope mt-0.5 mr-3 md:mr-4 text-brand-accent"></i><a href="mailto:info@viemmatours.africa" class="hover:text-brand-accent transition-colors">info@viemmatours.africa</a></li>
+                    </ul>
+                </div>
+                <div class="w-full sm:w-1/2 lg:w-1/3 text-[10px] md:text-xs tracking-wide">
+                     <h5 class="text-white font-serif font-light italic text-xl md:text-2xl mb-6 md:mb-8 border-b border-white/20 pb-3 md:pb-4 inline-block">Quick Links</h5>
+                     <div class="grid grid-cols-2 gap-y-3 md:gap-y-4 gap-x-2 text-white/80 font-light">
+                        <a href="south-africa.html" class="hover:text-brand-accent transition-colors w-max"><i class="fas fa-angle-right mr-1.5 md:mr-2 text-[8px] md:text-[10px] text-brand-accent"></i> South Africa</a>
+                        <a href="botswana.html" class="hover:text-brand-accent transition-colors w-max"><i class="fas fa-angle-right mr-1.5 md:mr-2 text-[8px] md:text-[10px] text-brand-accent"></i> Botswana</a>
+                        <a href="tours.html" class="hover:text-brand-accent transition-colors w-max"><i class="fas fa-angle-right mr-1.5 md:mr-2 text-[8px] md:text-[10px] text-brand-accent"></i> All Tours</a>
+                        <a href="corporate.html" class="hover:text-brand-accent transition-colors w-max"><i class="fas fa-angle-right mr-1.5 md:mr-2 text-[8px] md:text-[10px] text-brand-accent"></i> Corporate</a>
+                     </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom Section -->
+            <div class="border-t border-white/10 pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-start md:items-center text-[8px] md:text-[10px] text-white/60 uppercase tracking-widest font-medium gap-6 md:gap-0">
+                <div class="flex flex-col gap-4 md:w-1/3">
+                    <div class="text-center md:text-left">&copy; 2024 Viemma Tours. All rights reserved.</div>
+                </div>
+                <div class="flex flex-col gap-5 md:w-2/3 md:items-end w-full">
+                    <div class="flex flex-wrap gap-4 items-center justify-center md:justify-end w-full">
+                        <span class="text-white/40 text-[8px] tracking-widest mr-2">Associations:</span>
+                        <img src="https://viemmatourscapetown.co.za/wp-content/uploads/2020/03/SATSA-LOGO-1-150x150.jpg" loading="lazy" alt="SATSA" class="h-6 footer-embossed-img">
+                        <img src="https://viemmatourscapetown.co.za/wp-content/uploads/2020/03/SATIB_Logo_white-300x93.png" loading="lazy" alt="SATIB" class="h-5 filter opacity-60 hover:opacity-100 transition-opacity">
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    <!-- Shopping Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl z-[110] transform translate-x-full transition-transform duration-500 flex flex-col">
+        <div class="p-6 border-b border-stone-200 flex justify-between items-center bg-brand-light">
+            <h3 class="font-serif text-2xl italic font-light text-brand-dark">Your Cart</h3>
+            <button onclick="toggleCart()" class="text-stone-400 hover:text-brand-dark transition-colors"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+            <p class="text-stone-400 text-xs font-light italic text-center py-10">Your cart is empty.</p>
+        </div>
+        <div class="p-6 border-t border-stone-200 bg-stone-50">
+            <button onclick="checkoutWhatsApp()" class="w-full bg-[#25D366] text-white py-4 rounded-sm font-medium uppercase tracking-widest text-xs flex items-center justify-center hover:bg-[#20bd5a] transition-colors shadow-sm">
+                <i class="fab fa-whatsapp mr-3 text-lg"></i> Order via WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="fixed inset-0 z-[100] modal-inactive flex items-center justify-center bg-black/80 backdrop-blur-md p-4" onclick="closeBookingModal()">
+        <div class="bg-brand-light w-full max-w-2xl rounded-sm shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]" onclick="event.stopPropagation()">
+            <div class="relative h-48 md:h-64 bg-stone-200 shrink-0">
+                <img id="modal-img" src="" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 to-transparent"></div>
+                <button id="close-modal" class="absolute top-4 right-4 bg-white/10 border border-white/20 backdrop-blur rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center hover:bg-white hover:text-brand-dark text-white transition-all duration-300 z-10" onclick="closeBookingModal()"><i class="fas fa-times text-xs md:text-sm"></i></button>
+                <div class="absolute bottom-4 md:bottom-6 left-6 md:left-8">
+                    <span id="modal-badge" class="country-badge mb-2 md:mb-3 shadow-md">Country</span>
+                    <h3 id="modal-title" class="text-2xl md:text-3xl font-serif font-light text-white italic mb-1 md:mb-2 leading-tight pr-4 text-shadow-strong">Tour Title</h3>
+                    <div id="modal-rating" class="flex gap-1 drop-shadow-md"></div>
+                </div>
+            </div>
+            <div class="p-6 md:p-10 overflow-y-auto">
+                <div id="modal-desc" class="century-gothic text-stone-600 leading-relaxed mb-1 text-xs md:text-sm font-medium tracking-wide">Description goes here.</div>
+                
+                <div class="border-t border-stone-200 pt-6 md:pt-8 mt-6">
+                    <h4 class="font-light mb-4 md:mb-6 font-serif text-base md:text-lg text-brand-dark italic">Ready to embark?</h4>
+                    <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
+                        <a href="https://calendar.google.com/calendar/u/0/r/appointment" target="_blank" class="w-max flex items-center justify-center border border-blue-500 text-blue-600 font-medium py-2.5 md:py-3 px-4 rounded-sm hover:bg-blue-500 hover:text-white transition-colors text-[9px] md:text-[10px] uppercase tracking-widest"><i class="far fa-calendar-alt mr-2 md:mr-3 text-sm"></i> Book via Calendar</a>
+                        <a href="https://wa.me/27681712985" target="_blank" class="w-max flex items-center justify-center border border-[#25D366] text-[#25D366] font-medium py-2.5 md:py-3 px-4 rounded-sm hover:bg-[#25D366] hover:text-white transition-colors text-[9px] md:text-[10px] uppercase tracking-widest"><i class="fab fa-whatsapp mr-2 md:mr-3 text-base"></i> Enquire via WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="fixed inset-0 z-[100] modal-inactive flex items-center justify-center bg-black/80 backdrop-blur-md p-4" onclick="closeContactModal()">
+        <div class="bg-brand-light w-full max-w-md rounded-sm shadow-2xl relative p-8 md:p-10 border border-stone-200" onclick="event.stopPropagation()">
+            <button onclick="closeContactModal()" class="absolute top-4 right-4 md:top-6 md:right-6 text-stone-400 hover:text-brand-dark w-8 h-8 flex items-center justify-center rounded-full hover:bg-stone-100 transition-colors"><i class="fas fa-times text-sm"></i></button>
+            <h3 class="text-2xl md:text-3xl font-serif font-light mb-8 md:mb-10 text-center text-brand-dark italic">Connect With Us</h3>
+            <div class="space-y-3 md:space-y-4">
+                <a href="tel:+270210137143" class="flex items-center p-3 md:p-4 bg-white rounded-sm shadow-sm hover:shadow-lg transition-all duration-300 border border-stone-100 group">
+                    <div class="w-10 h-10 border border-brand-accent/40 text-brand-accent rounded-full flex items-center justify-center mr-4 md:mr-5 group-hover:bg-brand-accent group-hover:text-white transition-colors flex-shrink-0"><i class="fas fa-phone-alt text-xs"></i></div>
+                    <div><div class="font-medium text-brand-dark text-[10px] md:text-xs uppercase tracking-widest mb-1">Call Local</div><div class="text-[10px] md:text-xs text-stone-500 font-light">(+27) 021 0137143</div></div>
+                </a>
+                <a href="tel:+27681712985" class="flex items-center p-3 md:p-4 bg-white rounded-sm shadow-sm hover:shadow-lg transition-all duration-300 border border-stone-100 group">
+                    <div class="w-10 h-10 border border-brand-accent/40 text-brand-accent rounded-full flex items-center justify-center mr-4 md:mr-5 group-hover:bg-brand-accent group-hover:text-white transition-colors flex-shrink-0"><i class="fas fa-mobile-alt text-xs"></i></div>
+                    <div><div class="font-medium text-brand-dark text-[10px] md:text-xs uppercase tracking-widest mb-1">Call Mobile</div><div class="text-[10px] md:text-xs text-stone-500 font-light">+27 68 171 2985</div></div>
+                </a>
+                <a href="https://wa.me/27681712985" target="_blank" class="flex items-center p-3 md:p-4 bg-white rounded-sm shadow-sm hover:shadow-lg transition-all duration-300 border border-stone-100 group">
+                    <div class="w-10 h-10 border border-[#25D366]/50 text-[#25D366] rounded-full flex items-center justify-center mr-4 md:mr-5 group-hover:bg-[#25D366] group-hover:text-white transition-colors flex-shrink-0"><i class="fab fa-whatsapp text-lg"></i></div>
+                    <div><div class="font-medium text-brand-dark text-[10px] md:text-xs uppercase tracking-widest mb-1">WhatsApp</div><div class="text-[10px] md:text-xs text-stone-500 font-light">Chat with us directly</div></div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Layer -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- CART SYSTEM (Using LocalStorage) ---
+            function getCart() { return JSON.parse(localStorage.getItem('viemma_cart')) || {}; }
+            function saveCart(cartData) { localStorage.setItem('viemma_cart', JSON.stringify(cartData)); }
+
+            window.addToCart = (title, img) => {
+                let cart = getCart();
+                if(cart[title]) {
+                    cart[title].qty++;
+                } else {
+                    cart[title] = { qty: 1, img: img };
+                }
+                saveCart(cart);
+                updateCartUI();
+                document.getElementById('cart-sidebar').classList.remove('translate-x-full');
+            };
+
+            window.updateQty = (title, delta) => {
+                let cart = getCart();
+                if(cart[title]) {
+                    cart[title].qty += delta;
+                    if(cart[title].qty <= 0) delete cart[title];
+                    saveCart(cart);
+                    updateCartUI();
+                }
+            };
+
+            window.toggleCart = () => { document.getElementById('cart-sidebar').classList.toggle('translate-x-full'); };
+
+            window.checkoutWhatsApp = () => {
+                let cart = getCart();
+                if(Object.keys(cart).length === 0) return alert('Your cart is empty.');
+                let text = "Hello Viemma Tours, I would like to order the following items from the boutique:%0A%0A";
+                Object.keys(cart).forEach(title => {
+                    text += "- " + cart[title].qty + "x " + title + "%0A";
+                });
+                window.open('https://wa.me/27681712985?text=' + text, '_blank');
+            };
+
+            const updateCartUI = () => {
+                const container = document.getElementById('cart-items-container');
+                const countBadge = document.getElementById('cart-count');
+                const floatBtn = document.getElementById('floating-cart-btn');
+                
+                let cart = getCart();
+                if (container) container.innerHTML = '';
+                let totalItems = 0;
+
+                Object.keys(cart).forEach(title => {
+                    const item = cart[title];
+                    totalItems += item.qty;
+                    if(container) {
+                        container.innerHTML += `
+                            <div class="flex items-center gap-4 bg-white p-3 border border-stone-100 rounded-sm shadow-sm">
+                                <img src="${item.img}" class="w-16 h-16 object-cover rounded-sm">
+                                <div class="flex-1">
+                                    <h4 class="text-xs font-medium text-brand-dark mb-1 leading-tight">${title}</h4>
+                                    <div class="flex items-center gap-3 mt-2">
+                                        <button onclick="updateQty('${title}', -1)" class="w-6 h-6 border border-stone-200 flex items-center justify-center rounded-sm hover:bg-stone-100 text-stone-500 transition-colors"><i class="fas fa-minus text-[8px]"></i></button>
+                                        <span class="text-xs font-medium w-4 text-center">${item.qty}</span>
+                                        <button onclick="updateQty('${title}', 1)" class="w-6 h-6 border border-stone-200 flex items-center justify-center rounded-sm hover:bg-stone-100 text-stone-500 transition-colors"><i class="fas fa-plus text-[8px]"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+                if (countBadge) countBadge.textContent = totalItems;
+                if (floatBtn) {
+                    if(totalItems > 0) floatBtn.classList.remove('hidden');
+                    else floatBtn.classList.add('hidden');
+                }
+                
+                if(totalItems === 0 && container) {
+                    container.innerHTML = '<p class="text-stone-400 text-xs font-light italic text-center py-10">Your cart is empty.</p>';
+                }
+            };
+            
+            updateCartUI(); // Init cart UI on page load
+
+            // --- Scroll Arrows Init ---
+            window.initScrollArrows = () => {
+                document.querySelectorAll('.scroll-wrapper').forEach(wrapper => {
+                    if (wrapper.dataset.arrowsInit === 'true') return; 
+                    const container = wrapper.querySelector('.scroll-content');
+                    if(!container) return;
+                    wrapper.dataset.arrowsInit = 'true';
+                });
+            };
+
+            // --- Inject Partners Template ---
+            const injectPartners = () => {
+                const pContainer = document.getElementById('global-partners-container');
+                const tpl = document.getElementById('partners-template');
+                if (pContainer && tpl) {
+                    pContainer.appendChild(tpl.content.cloneNode(true));
+                }
+            }
+            injectPartners();
+
+            // --- Navbar & Mobile Menu UI ---
+            const mainNavbar = document.getElementById('main-navbar');
+            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+            const mobileMenuBtnInitial = document.getElementById('mobile-menu-btn-initial');
+            const closeMobileMenu = document.getElementById('close-mobile-menu');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) { 
+                    mainNavbar.classList.add('py-2', 'md:py-1', 'shadow-md'); 
+                    mainNavbar.classList.remove('py-3', 'md:py-2', 'lg:py-1');
+                } else { 
+                    mainNavbar.classList.remove('py-2', 'md:py-1', 'shadow-md'); 
+                    mainNavbar.classList.add('py-3', 'md:py-2', 'lg:py-1');
+                }
+            });
+
+            window.toggleMenu = () => { mobileMenuOverlay.classList.toggle('translate-x-full'); };
+            if(mobileMenuBtnInitial) mobileMenuBtnInitial.addEventListener('click', toggleMenu);
+            if(closeMobileMenu) closeMobileMenu.addEventListener('click', toggleMenu);
+
+            // --- Modals Logic ---
+            const bookingModal = document.getElementById('booking-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDesc = document.getElementById('modal-desc');
+            const modalImg = document.getElementById('modal-img');
+            const modalBadge = document.getElementById('modal-badge');
+            const modalRating = document.getElementById('modal-rating');
+
+            window.closeBookingModal = () => { 
+                bookingModal.classList.remove('modal-active'); 
+                bookingModal.classList.add('modal-inactive'); 
+            };
+
+            window.openModal = (title, desc, img, country, colorClass, rating) => { 
+                modalTitle.textContent = title; 
+                
+                modalDesc.innerHTML = desc + `
+                    <div class="mt-4 md:mt-6 border-t border-stone-100 pt-4 md:pt-6">
+                        <h5 class="font-serif font-light text-brand-dark mb-3 text-sm md:text-base">Booking Information & Inclusions:</h5>
+                        <ul class="list-disc pl-5 space-y-1.5 md:space-y-2 text-stone-500 font-light text-[10px] md:text-xs tracking-wide">
+                            <li>Luxury hand-picked accommodations</li>
+                            <li>Expert local guides and tracking</li>
+                            <li>Seamless premium transfers</li>
+                            <li>24/7 dedicated concierge support</li>
+                        </ul>
+                    </div>
+                `;
+                
+                modalImg.src = img; 
+                modalImg.onerror = function() {
+                   this.onerror = null; 
+                   this.src = 'https://images.pexels.com/photos/7506100/pexels-photo-7506100.jpeg?auto=compress&cs=tinysrgb&w=800';
+                };
+                
+                modalBadge.textContent = country || 'Tour';
+                modalBadge.className = "country-badge shadow-md " + (colorClass || 'bg-stone-500');
+                
+                const starsHtml = Array.from({length: rating || 5}).map(() => '<i class="fas fa-star text-brand-accent text-[10px] md:text-xs drop-shadow-sm"></i>').join('');
+                modalRating.innerHTML = starsHtml;
+
+                bookingModal.classList.remove('modal-inactive'); 
+                bookingModal.classList.add('modal-active'); 
+            }
+
+            const contactModal = document.getElementById('contact-modal');
+            window.openContactModal = () => { contactModal.classList.remove('modal-inactive'); contactModal.classList.add('modal-active'); }
+            window.closeContactModal = () => { contactModal.classList.remove('modal-active'); contactModal.classList.add('modal-inactive'); }
+
+            // --- Scroll Reveal Init ---
+            const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } });
+            }, observerOptions);
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+            // --- MADAGASCAR DATA LOGIC ---
+            const madagascarResortsData = [
+                {name: "Royal Andilana Resort and Spa", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfuQFyi8eHiYmkSN_-O7AX1b8iIi9xbgb1s2MJsIhaRy1xDJJJEWM9hUtG37xB6QFkMxRRP84p7MZZrf0udMtM3nF2yb01dIX_6vX3Gq_e3bwHEh632RIK3WGNXu8TvH-NHt0IA?key=dnLDELZEuuL9-DEOEYjapg"}, 
+                {name: "Constance Tsarabanjina", img: "https://lh7-rt.googleusercontent.com/docsz/AD_4nXfq9R64fjY9gauyX62Ry9Drw4r9EjfEkF8QINQiifdWsJF2zYk2HI2p7PsgWORHh54rJHJf1Pol6sBdmZaosrh_eXjvgMBfk-2ciREqcuPjsQebIzbhFX8XCRehAcWJNjkuY_K4Bg?key=dnLDELZEuuL9-DEOEYjapg"}
+            ];
+
+            const madagascarPackages = madagascarResortsData.map(item => {
+                const name = typeof item === 'string' ? item : item.name;
+                const imgUrl = typeof item === 'string' ? "https://images.pexels.com/photos/7506100/pexels-photo-7506100.jpeg?auto=compress&cs=tinysrgb&w=800" : item.img;
+                const rating = name.toLowerCase().includes('3-star') ? 3 : (name.toLowerCase().includes('4-star') ? 4 : 5);
+                return { 
+                    title: name, 
+                    desc: `Experience unparalleled luxury and breathtaking coastal views at this exquisite ${rating}-star destination.`, 
+                    img: imgUrl, 
+                    country: "Madagascar", 
+                    duration: "7 Days", 
+                    rating: rating 
+                };
+            });
+
+            const renderPackages = (containerId, items) => {
+                const container = document.getElementById(containerId);
+                if(!container) return;
+                
+                container.innerHTML = '';
+                
+                items.forEach(pkg => {
+                    const starsHtml = Array.from({length: pkg.rating || 5}).map(() => '<i class="fas fa-star text-brand-accent text-[10px] md:text-xs drop-shadow-sm"></i>').join('');
+
+                    const card = document.createElement('div');
+                    card.className = "w-[70vw] sm:w-[45vw] md:w-auto md:min-w-0 md:flex-1 max-w-[280px] md:max-w-none flex-shrink-0 snap-center bg-white/95 backdrop-blur-md rounded-sm shadow-soft hover:shadow-elegant transition-shadow duration-500 overflow-hidden flex flex-col h-full border border-stone-100 group cursor-pointer";
+                    card.onclick = () => openModal(pkg.title, pkg.desc, pkg.img, pkg.country, "bg-[#556B2F]", pkg.rating);
+                    
+                    card.innerHTML = `
+                        <div class="relative h-48 md:h-64 overflow-hidden bg-stone-100">
+                            <img src="${pkg.img}" loading="lazy" onerror="this.onerror=null; this.src='https://images.pexels.com/photos/7506100/pexels-photo-7506100.jpeg?auto=compress&cs=tinysrgb&w=800';" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000">
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
+                            
+                            <div class="absolute top-3 right-3 bg-white/95 px-2.5 py-1.5 rounded-sm shadow-md z-10 flex gap-0.5">
+                                ${starsHtml}
+                            </div>
+                            <span class="absolute bottom-4 left-4 md:bottom-5 md:left-5 country-badge shadow-md bg-[#556B2F]">${pkg.country}</span>
+                        </div>
+                        <div class="p-6 md:p-8 flex flex-col flex-1">
+                            <h3 class="text-base md:text-xl font-light text-brand-dark mb-3 md:mb-4 font-serif italic group-hover:text-brand-accent transition-colors leading-tight">${pkg.title}</h3>
+                            <p class="century-gothic text-stone-500 text-[10px] md:text-xs mb-5 md:mb-6 leading-relaxed flex-1 font-light tracking-wide">${pkg.desc}</p>
+                            <div class="flex items-center justify-between pt-4 md:pt-5 border-t border-stone-100 mt-auto">
+                                <span class="text-[9px] md:text-[10px] font-medium uppercase tracking-widest text-stone-400 flex items-center">
+                                    <i class="far fa-clock mr-1.5 md:mr-2 text-brand-accent text-[10px] md:text-xs"></i> ${pkg.duration}
+                                </span>
+                                <span class="text-brand-accent text-[8px] md:text-[9px] font-medium uppercase tracking-widest group-hover:underline w-max">Discover</span>
+                            </div>
+                        </div>`;
+                    container.appendChild(card);
+                });
+                
+                if (window.initScrollArrows) window.initScrollArrows();
+            };
+
+            const regionsContainer = document.getElementById('dest-regions-container');
+            if (regionsContainer && madagascarPackages.length > 0) {
+                const section = document.createElement('div');
+                section.className = "mb-16 md:mb-20";
+                const header = document.createElement('h3');
+                header.className = "text-2xl md:text-3xl font-light font-serif text-brand-dark mb-6 md:mb-10 border-b border-stone-200 pb-3 md:pb-4 italic px-2 md:px-0";
+                header.innerHTML = `<span class="text-brand-accent mr-3">|</span> Curated Experiences`;
+                section.appendChild(header);
+                
+                const wrapper = document.createElement('div');
+                wrapper.className = "relative w-full group scroll-wrapper";
+                
+                const gridId = "grid-madagascar";
+                const grid = document.createElement('div');
+                grid.id = gridId;
+                grid.className = "scroll-content mobile-2-col-scroll md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 pb-8 pt-4 px-2 md:px-0 hide-scrollbar";
+                
+                wrapper.appendChild(grid);
+                section.appendChild(wrapper);
+                regionsContainer.appendChild(section);
+                
+                renderPackages(gridId, madagascarPackages);
+            }
+        });
+    </script>
+</body>
+</html>
