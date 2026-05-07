@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Legal & Privacy - Viemma Tours</title>
+    
+    <!-- Elegant Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#1A3326', 
+                            light: '#FCFAF8', 
+                            accent: '#D4AF37',
+                        }
+                    },
+                    boxShadow: {
+                        'elegant': '0 10px 40px -10px rgba(0, 0, 0, 0.08)',
+                        'soft': '0 4px 20px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            color: #1A3326;
+            overflow-x: hidden;
+            background-color: #FCFAF8;
+        }
+        .century-gothic { font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif !important; }
+        
+        .nav-link { position: relative; cursor: pointer; transition: color 0.3s ease; }
+        .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 1px;
+            bottom: -4px; left: 50%; background-color: #D4AF37;
+            transition: all 0.4s ease; transform: translateX(-50%);
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        .modal-active { opacity: 1; visibility: visible; pointer-events: auto; transition: all 0.3s ease; }
+        .modal-inactive { opacity: 0; visibility: hidden; pointer-events: none; transition: all 0.3s ease; }
+
+        .reveal-on-scroll {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-on-scroll.active { opacity: 1; transform: translateY(0); }
+
+        /* Legal Content Styling */
+        .legal-content h2 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.75rem; 
+            margin-top: 3rem; 
+            margin-bottom: 1.25rem; 
+            font-style: italic;
+            color: #1A3326;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding-bottom: 0.5rem;
+        }
+        .legal-content h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #D4AF37;
+        }
+        .legal-content p { 
+            font-size: 0.9375rem; 
+            line-height: 1.8; 
+            color: #4b5563; 
+            margin-bottom: 1.5rem; 
+        }
+        .legal-content ul { 
+            list-style-type: none; 
+            padding-left: 0; 
+            margin-bottom: 1.5rem; 
+        }
+        .legal-content li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+        .legal-content li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #D4AF37;
+            font-weight: bold;
+        }
+
+        /* Footer Inverted Embossed */
+        .footer-embossed-img {
+            filter: grayscale(100%) invert(1) opacity(0.6); mix-blend-mode: screen; transition: all 0.3s ease;
+        }
+        .footer-embossed-img:hover { filter: grayscale(0%) invert(0) opacity(1); mix-blend-mode: normal; }
+    </style>
+</head>
+<body class="relative bg-brand-light">
+
+    <!-- Global Background Image -->
+    <div class="fixed inset-0 z-[-1] w-full h-full overflow-hidden">
+        <img src="https://images.pexels.com/photos/6363665/pexels-photo-6363665.jpeg" class="w-full h-full object-cover scale-105" alt="Global Background">
+    </div>
+
+    <!-- Top Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-500 bg-brand-dark/95 backdrop-blur-lg border-b border-brand-accent/20 py-3 shadow-sm" id="main-navbar">
+        <div class="container mx-auto px-6 md:px-12 lg:px-16 2xl:px-24 flex justify-between items-center">
+            <a href="index.html" class="flex-shrink-0 z-50 transition-transform duration-300 hover:opacity-80 py-1 flex items-center">
+                <img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXc366uzOWFLPWyEuBIMhicbjT2GajlyGrsVyeSDE68ap9hBFEamMNA78eyvIPmA-MVNbGhtCBwzKlk29IttM_jygwrCJXjmUdZt6iijoXLFzRyBcrcb_C-oH3KxcsenhczLCRl7RfOtKSy_7o02kbNgJ29iMA?key=KPDE2Lo8HhnJ3v--HqdAAw" alt="Viemma Tours Logo" class="h-8 md:h-12 lg:h-14 w-auto object-contain filter brightness-0 invert">
+            </a>
+            <div class="hidden lg:flex items-center space-x-6 xl:space-x-8 text-[10px] xl:text-xs uppercase tracking-widest font-medium text-white">
+                <a href="index.html" class="hover:text-brand-accent nav-link">Home</a>
+                <div class="relative group">
+                    <button class="flex items-center space-x-1 hover:text-brand-accent nav-link pb-1 uppercase tracking-widest"><span>Destinations</span><i class="fas fa-chevron-down text-[10px] ml-1"></i></button>
+                    <div class="absolute top-full left-0 mt-4 w-56 bg-brand-dark shadow-2xl py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 border-t-2 border-brand-accent text-white">
+                        <a href="south-africa.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">South Africa</a>
+                        <a href="victoria-falls.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Victoria Falls</a>
+                        <a href="botswana.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Botswana</a>
+                        <a href="mauritius.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Mauritius</a>
+                        <a href="reunion.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Reunion Islands</a>
+                        <a href="maldives.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Maldives</a>
+                        <a href="seychelles.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Seychelles</a>
+                        <a href="zanzibar.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Zanzibar</a>
+                        <a href="mozambique.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Mozambique</a>
+                        <a href="madagascar.html" class="block px-6 py-2.5 hover:bg-white/10 hover:text-brand-accent transition-colors">Madagascar</a>
+                    </div>
+                </div>
+                <a href="tours.html" class="hover:text-brand-accent nav-link">Tours</a>
+                <a href="corporate.html" class="hover:text-brand-accent nav-link">Business Tours</a>
+                <a href="about.html" class="hover:text-brand-accent nav-link">Our Story</a>
+                <a href="store.html" class="hover:text-brand-accent nav-link">Boutique</a>
+                <a href="contact.html" class="hover:text-brand-accent nav-link">Contact</a>
+                <a onclick="openContactModal()" class="w-max bg-brand-accent text-brand-dark px-6 py-3 hover:bg-white transition-colors shadow-sm uppercase tracking-widest text-[9px] font-semibold cursor-pointer ml-2 rounded-sm">Enquire Now</a>
+            </div>
+            <div class="flex items-center gap-4 lg:hidden">
+                <a href="index.html" class="text-white font-medium text-[10px] md:text-xs uppercase tracking-widest hover:text-brand-accent transition-colors">Home</a>
+                <button class="text-2xl z-50 text-white hover:text-brand-accent" id="mobile-menu-btn-initial"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Floating Cart Button -->
+    <button onclick="toggleCart()" id="floating-cart-btn" class="fixed top-24 right-4 md:right-6 z-[60] bg-brand-accent text-white shadow-xl rounded-full w-14 h-14 flex items-center justify-center transition-all duration-300 hover:scale-105 hidden">
+        <i class="fas fa-shopping-cart text-xl"></i>
+        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+    </button>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="fixed inset-y-0 right-0 w-[70vw] sm:w-[50vw] bg-brand-dark/60 backdrop-blur-xl z-[70] transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center space-y-8 text-lg font-serif text-white shadow-2xl" id="mobile-menu-overlay">
+        <button id="close-mobile-menu" class="absolute top-8 right-8 text-3xl text-white hover:text-brand-accent transition-colors"><i class="fas fa-times"></i></button>
+        <a href="index.html" class="hover:text-brand-accent transition-colors font-light">Home</a>
+        <a href="tours.html" class="hover:text-brand-accent transition-colors font-light">Tours</a>
+        <a href="corporate.html" class="hover:text-brand-accent transition-colors font-light">Business Tours</a>
+        <a href="about.html" class="hover:text-brand-accent transition-colors font-light">Our Story</a>
+        <a href="store.html" class="hover:text-brand-accent transition-colors font-light">The Boutique</a>
+        <a href="contact.html" class="hover:text-brand-accent transition-colors font-light">Contact</a>
+        <a onclick="openContactModal(); toggleMenu()" class="w-max bg-brand-accent text-brand-dark px-8 py-3 mt-4 uppercase tracking-widest text-xs font-semibold cursor-pointer rounded-sm hover:bg-white transition-colors">Enquire Now</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="relative z-20 pt-24 md:pt-32 pb-20 md:pb-24">
+        <div class="container mx-auto px-6 md:px-12 lg:px-16 2xl:px-24">
+            
+            <div class="max-w-4xl mx-auto bg-white p-8 md:p-16 rounded-sm shadow-elegant border border-stone-100 reveal-on-scroll">
+                <span class="text-brand-accent text-[10px] font-semibold uppercase tracking-[0.2em] mb-4 block">Viemma Tours</span>
+                <h1 class="text-4xl md:text-5xl font-serif font-light text-brand-dark italic mb-8 leading-tight">Privacy Policy & <br>Terms of Service</h1>
+                
+                <div class="legal-content">
+                    <p class="font-medium text-brand-dark italic border-b border-stone-100 pb-4">Last Updated: May 2024</p>
+                    
+                    <h2>Part A: Terms and Conditions of Travel</h2>
+                    <p>These terms and conditions (the "Terms") govern the relationship between Viemma Tours ("we", "us", "our") and the client ("you", "your", "guest"). By booking a tour with us, you acknowledge that you have read, understood, and agreed to be bound by these Terms.</p>
+
+                    <h3>1. The Contract and Booking Process</h3>
+                    <p>A binding contract is formed once we receive a completed booking form and the required non-refundable deposit. The person signing the booking form guarantees that they have the authority to accept these Terms on behalf of all persons named on the booking form.</p>
+
+                    <h3>2. Payment Terms</h3>
+                    <ul>
+                        <li><strong>Deposit:</strong> A non-refundable deposit of 30% of the total tour price is required to secure your reservation. For peak season bookings or specific high-end lodges, a higher deposit may be strictly required.</li>
+                        <li><strong>Balance:</strong> The remaining balance is due no later than 60 days prior to your date of departure. If the booking is made within 60 days of departure, full payment is required immediately.</li>
+                        <li><strong>Currency & Fluctuations:</strong> Quotes are subject to exchange rate fluctuations. Viemma Tours reserves the right to adjust prices before final payment if drastic currency shifts occur.</li>
+                    </ul>
+
+                    <h3>3. Cancellations by the Client</h3>
+                    <p>Cancellations must be submitted in writing to <strong>support@viemmatours.africa</strong>. Because of the exclusive nature of our luxury lodge partners and private charters, the following stringent cancellation fees apply:</p>
+                    <ul>
+                        <li><strong>More than 90 days prior to departure:</strong> Forfeiture of the 30% deposit.</li>
+                        <li><strong>89 to 60 days prior to departure:</strong> 50% of the total tour price is forfeited.</li>
+                        <li><strong>59 days or fewer prior to departure:</strong> 100% of the total tour price is forfeited.</li>
+                    </ul>
+                    <p>No refunds will be given for unused services, including but not limited to missed meals, game drives, or early departures from a tour.</p>
+
+                    <h3>4. Cancellations and Alterations by Viemma Tours</h3>
+                    <p>While we endeavor to operate all tours as advertised, we reserve the right to change itineraries or cancel a tour due to Force Majeure (events beyond our control including, but not limited to, extreme weather, political instability, or acts of God). In such events, we will offer comparable alternatives. Viemma Tours cannot be held liable for any incidental expenses incurred by the client (such as non-refundable flights) as a result of these changes.</p>
+
+                    <h3>5. Comprehensive Travel Insurance</h3>
+                    <p>It is a mandatory condition of traveling with Viemma Tours that all guests possess comprehensive travel insurance. This insurance must cover medical emergencies, repatriation, cancellation, curtailment, and loss or damage to baggage. Guests will be asked to provide proof of insurance prior to travel.</p>
+
+                    <h3>6. Passports, Visas, and Health Requirements</h3>
+                    <ul>
+                        <li><strong>Passports:</strong> Passports must be valid for at least six (6) months beyond the intended date of return and contain a minimum of three (3) blank visa pages.</li>
+                        <li><strong>Visas:</strong> The client is entirely responsible for obtaining the correct visas for all countries visited during the itinerary.</li>
+                        <li><strong>Health:</strong> Many of our destinations are located in malaria-endemic areas or require Yellow Fever certificates. It is the client’s responsibility to consult a medical professional regarding necessary prophylactics and inoculations.</li>
+                    </ul>
+
+                    <h3>7. Limitation of Liability and Assumption of Risk</h3>
+                    <p>Travel to Africa and the Indian Ocean involves inherent risks, including close proximity to wild animals, travel in remote areas with limited medical facilities, and the use of light aircraft. By booking with Viemma Tours, you accept these risks. Viemma Tours, its directors, employees, and agents act solely as agents for third-party suppliers (airlines, lodges, transport companies) and shall not be held liable for any injury, death, loss, damage, or delay arising from the actions or omissions of these independent suppliers.</p>
+
+                    <h2>Part B: Privacy Policy & Data Protection</h2>
+                    <p>This Privacy Policy outlines how Viemma Tours collects, protects, and utilizes your Personal Information in compliance with the Protection of Personal Information Act (POPIA) of South Africa and the General Data Protection Regulation (GDPR).</p>
+
+                    <h3>1. Information We Collect</h3>
+                    <p>To curate and execute your luxury travel experience, we collect the following categories of data:</p>
+                    <ul>
+                        <li><strong>Identity & Contact Data:</strong> Full names, passport copies, dates of birth, email addresses, phone numbers, and physical addresses.</li>
+                        <li><strong>Special Category Data:</strong> Dietary requirements, allergies, mobility issues, or relevant medical conditions. This data is collected strictly to ensure your safety and comfort.</li>
+                        <li><strong>Financial Data:</strong> Billing details and secure payment processing information.</li>
+                        <li><strong>Technical Data:</strong> IP addresses, browser types, and website usage data collected via cookies when you interact with our digital platforms.</li>
+                    </ul>
+
+                    <h3>2. How We Use Your Information</h3>
+                    <p>We process your data exclusively for the following purposes:</p>
+                    <ul>
+                        <li>To execute our contract with you (booking flights, securing luxury accommodation, arranging private transfers).</li>
+                        <li>To communicate vital itinerary updates, travel advisories, and administrative notices.</li>
+                        <li>To ensure emergency protocols can be activated if required on the ground.</li>
+                        <li>To comply with legal, regulatory, and tax obligations in South Africa and destination countries.</li>
+                    </ul>
+
+                    <h3>3. Data Sharing and Third-Party Disclosures</h3>
+                    <p>Your Personal Information is treated with the highest level of confidentiality. We only share necessary details with trusted third-party providers (hotels, airlines, ground handlers, and guides) strictly for the purpose of fulfilling your travel itinerary. We ensure our partners maintain equivalent data protection standards. We do not sell, rent, or trade your data to third-party marketing agencies.</p>
+
+                    <h3>4. International Data Transfers</h3>
+                    <p>Because your travel spans multiple jurisdictions, your data may be transferred to suppliers operating outside of your home country. We ensure that such transfers are protected by appropriate safeguards and contractual confidentiality clauses.</p>
+
+                    <h3>5. Data Security and Retention</h3>
+                    <p>Viemma Tours employs robust digital security protocols, including encryption and secure servers, to prevent unauthorized access, alteration, or disclosure of your data. We retain your personal data only for as long as necessary to fulfill the purposes for which it was collected, or as legally required by South African revenue and tax laws.</p>
+
+                    <h3>6. Your Legal Rights</h3>
+                    <p>Under POPIA and GDPR, you possess the right to:</p>
+                    <ul>
+                        <li>Request access to the personal data we hold about you.</li>
+                        <li>Request the correction of inaccurate or incomplete data.</li>
+                        <li>Request the erasure of your data (subject to legal retention requirements).</li>
+                        <li>Withdraw your consent for direct marketing communications at any time.</li>
+                    </ul>
+
+                    <div class="mt-12 p-8 bg-brand-light border-l-4 border-brand-accent italic text-sm text-stone-600">
+                        <p class="mb-4 text-brand-dark font-semibold uppercase tracking-widest text-[10px]">Legal Contact & Compliance</p>
+                        <p class="mb-4">For any questions regarding our terms, privacy practices, to exercise your data rights, or to request a full copy of our standard operating procedures, please contact our support team:</p>
+                        <a href="mailto:support@viemmatours.africa" class="text-brand-dark font-semibold text-lg hover:text-brand-accent transition-colors">support@viemmatours.africa</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="relative pt-20 md:pt-24 pb-10 md:pb-12 overflow-hidden border-t border-white/20 bg-brand-dark z-20">
+        <img src="https://images.pexels.com/photos/6363665/pexels-photo-6363665.jpeg" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-10 blur-sm z-0">
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/95 to-brand-dark/90 z-10"></div>
+        <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-20">
+            <div class="flex flex-col lg:flex-row justify-between items-start mb-12 gap-10">
+                <div class="w-full lg:w-1/3">
+                    <img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXc366uzOWFLPWyEuBIMhicbjT2GajlyGrsVyeSDE68ap9hBFEamMNA78eyvIPmA-MVNbGhtCBwzKlk29IttM_jygwrCJXjmUdZt6iijoXLFzRyBcrcb_C-oH3KxcsenhczLCRl7RfOtKSy_7o02kbNgJ29iMA?key=KPDE2Lo8HhnJ3v--HqdAAw" loading="lazy" class="h-16 w-auto mb-6 filter brightness-0 invert drop-shadow-md object-contain">
+                    <p class="text-white/80 text-[10px] md:text-xs font-light leading-relaxed tracking-wide">Experience the unparalleled majesty of the African continent and the Indian Ocean with the experts at Viemma Tours.</p>
+                </div>
+                <div class="w-full sm:w-1/2 lg:w-1/3 text-[10px] md:text-xs tracking-wide">
+                    <h5 class="text-white font-serif font-light italic text-xl mb-6 border-b border-white/20 pb-3 inline-block">Contact Support</h5>
+                    <ul class="space-y-4 text-white/80 font-light">
+                        <li class="flex items-center"><i class="fas fa-envelope mr-4 text-brand-accent"></i><a href="mailto:support@viemmatours.africa" class="hover:text-brand-accent transition-colors">support@viemmatours.africa</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-[8px] md:text-[10px] text-white/60 uppercase tracking-widest font-medium">
+                <div class="mb-4 md:mb-0 text-center md:text-left">&copy; 2024 Viemma Tours. Registered Tour Operator, South Africa. All rights reserved.</div>
+                <div class="flex gap-6">
+                    <a href="legal.html" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="legal.html" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="fixed inset-0 z-[100] modal-inactive flex items-center justify-center bg-black/80 backdrop-blur-md p-4" onclick="closeContactModal()">
+        <div class="bg-brand-light w-full max-w-md rounded-sm shadow-2xl relative p-8 md:p-10 border border-stone-200" onclick="event.stopPropagation()">
+            <button onclick="closeContactModal()" class="absolute top-4 right-4 md:top-6 md:right-6 text-stone-400 hover:text-brand-dark w-8 h-8 flex items-center justify-center rounded-full hover:bg-stone-100 transition-colors"><i class="fas fa-times text-sm"></i></button>
+            <h3 class="text-2xl md:text-3xl font-serif font-light mb-8 md:mb-10 text-center text-brand-dark italic">Connect With Us</h3>
+            <div class="space-y-4">
+                <a href="mailto:support@viemmatours.africa" class="flex items-center p-3 md:p-4 bg-white rounded-sm shadow-sm hover:shadow-lg transition-all duration-300 border border-stone-100 group">
+                    <div class="w-10 h-10 border border-brand-dark/30 text-brand-dark rounded-full flex items-center justify-center mr-4 md:mr-5 group-hover:bg-brand-dark group-hover:text-white transition-colors flex-shrink-0"><i class="fas fa-envelope text-xs"></i></div>
+                    <div class="text-left">
+                        <div class="font-medium text-brand-dark text-[10px] md:text-xs uppercase tracking-widest mb-1">Support Email</div>
+                        <div class="text-[10px] md:text-xs text-stone-500 font-light break-all">support@viemmatours.africa</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Layer -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar Scroll Behavior
+            const mainNavbar = document.getElementById('main-navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) { 
+                    mainNavbar.classList.add('py-2', 'shadow-md'); 
+                } else { 
+                    mainNavbar.classList.remove('py-2', 'shadow-md'); 
+                }
+            });
+
+            // Mobile Menu
+            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+            const mobileMenuBtnInitial = document.getElementById('mobile-menu-btn-initial');
+            const closeMobileMenu = document.getElementById('close-mobile-menu');
+            window.toggleMenu = () => { mobileMenuOverlay.classList.toggle('translate-x-full'); };
+            if(mobileMenuBtnInitial) mobileMenuBtnInitial.addEventListener('click', toggleMenu);
+            if(closeMobileMenu) closeMobileMenu.addEventListener('click', toggleMenu);
+
+            // Contact Modal
+            const contactModal = document.getElementById('contact-modal');
+            window.openContactModal = () => { 
+                contactModal.classList.remove('modal-inactive'); 
+                contactModal.classList.add('modal-active'); 
+            }
+            window.closeContactModal = () => { 
+                contactModal.classList.remove('modal-active'); 
+                contactModal.classList.add('modal-inactive'); 
+            }
+
+            // Scroll Reveal
+            const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } });
+            }, observerOptions);
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+            // Sync Cart Count from LocalStorage
+            function updateCartCount() {
+                const cart = JSON.parse(localStorage.getItem('viemma_cart')) || {};
+                const countBadge = document.getElementById('cart-count');
+                const floatBtn = document.getElementById('floating-cart-btn');
+                let totalItems = 0;
+                Object.keys(cart).forEach(title => { totalItems += cart[title].qty; });
+                if (countBadge) countBadge.textContent = totalItems;
+                if (floatBtn) {
+                    if(totalItems > 0) floatBtn.classList.remove('hidden');
+                    else floatBtn.classList.add('hidden');
+                }
+            }
+            updateCartCount();
+            window.toggleCart = () => { window.location.href = 'store.html'; }; 
+        });
+    </script>
+</body>
+</html>
